@@ -4,6 +4,13 @@ import java.util.List;
 
 public class Game {
 
+    public enum MoveDirection {
+        MoveUp,
+        MoveDown,
+        MoveLeft,
+        MoveRight
+    }
+
     /**
      * True while the player is alive and no invader reached the bottom of the game.
      */
