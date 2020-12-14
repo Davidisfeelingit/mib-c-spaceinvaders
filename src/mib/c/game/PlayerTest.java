@@ -5,16 +5,22 @@ import org.junit.Assert;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
-
+    /**
+     * Constructor ...
+     */
     @org.junit.jupiter.api.Test
     void player() {
     }
-
+    /**
+     * test function
+     */
     @org.junit.jupiter.api.Test
     void move() {
         Player player = new Player();
 
-        // Move left
+        /**
+         * Player moves left
+         */
         try {
             player.Move(Game.MoveDirection.MoveLeft);
             assertEquals(-1, player.position_x);
@@ -22,7 +28,9 @@ class PlayerTest {
             e.printStackTrace();
         }
 
-        // Move left
+        /**
+         * Player moves left
+         */
         try {
             player.Move(Game.MoveDirection.MoveLeft);
             assertEquals(-2, player.position_x);
@@ -30,7 +38,9 @@ class PlayerTest {
             e.printStackTrace();
         }
 
-        // Move right
+        /**
+         * Player moves right
+         */
         try {
             player.Move(Game.MoveDirection.MoveRight);
             assertEquals(-1, player.position_x);
@@ -38,7 +48,9 @@ class PlayerTest {
             e.printStackTrace();
         }
 
-        // Moving down and up is not allowed
+        /**
+         * Moving up and down not allowed
+         */
         try {
             player.Move(Game.MoveDirection.MoveDown);
         } catch (Exception e) {
