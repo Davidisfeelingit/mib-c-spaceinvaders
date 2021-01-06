@@ -5,10 +5,10 @@ import java.awt.*;
 public class Invader {
     public enum InvaderType {
         Bug;
-        Saucer;
-        Satellite;
-        Spaceship;
-        Star;
+    //    Saucer;
+    //    Satellite;
+    //    Spaceship;
+    //    Star;
     }
     /**
      * defines current invaders position
@@ -28,7 +28,7 @@ public class Invader {
     /**
      *  defines Image of Invaders Bitmap
      */
-    public Bitmap Image;
+   // public Bitmap Image;
 
     public void Invader(InvaderType type){
 

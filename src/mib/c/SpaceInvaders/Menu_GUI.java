@@ -1,4 +1,4 @@
-package spaceSip;
+package mib.c.SpaceInvaders;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -18,8 +18,9 @@ public class Menu_GUI extends JFrame implements ActionListener
     private String [] namesHighscore = {"highscore.txt"};
     private int currentIndex = 0;
     private String [] temp1Array = new String[2];
-    private spaceSip.Menu_GUI menu_GUI;
-    private spaceSip.Highscore_GUI highscore_GUI;
+    private Menu_GUI menu_GUI;
+    private Highscore_GUI highscore_GUI;
+    private int highscore = -1;
 
     public static JFrame frame1 = new JFrame();
 

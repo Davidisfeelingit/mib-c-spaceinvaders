@@ -1,12 +1,15 @@
-package spaceSip;
+package mib.c.SpaceInvaders;
 import javax.swing.*;
 import java.awt.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 
 public class Highscore_GUI extends JScrollPane {
 
-    private spaceSip.Menu_GUI Menu_GUI;
-    private spaceSip.Highscore_GUI Highscore_GUI;
+    private Menu_GUI Menu_GUI;
+    private Highscore_GUI Highscore_GUI;
     private JTable highscoreT;
 
     public Highscore_GUI(){
@@ -34,6 +37,26 @@ public class Highscore_GUI extends JScrollPane {
         Highscore_GUI.setSize(800,600);
         Highscore_GUI.setVisible(true);
         //Highscore_GUI.setTitle("Highscore");
+    }
+    public String getHighscore(){
+        FileReader readFile = null;
+        BufferedReader reader = null;
+        try{
+            readFile = new FileReader("highscore.txt");
+            reader = new BufferedReader(readFile);
+            return reader.readLine();
+        }
+        catch (Exception e)
+        {
+            return "0";
+        }
+        finally{
+            try{
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }
