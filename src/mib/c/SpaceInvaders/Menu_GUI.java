@@ -1,5 +1,4 @@
-package mib.c.SpaceInvaders;
-
+package spaceSip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -10,62 +9,94 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-public class Menu_GUI extends JFrame implements ActionListener {
-    private JLabel titleL;
-    private JButton startB, highscoreB, exitB, leftScrollB, rightScrollB;
-    private JTextField score;
-    private JTextField name;
+public class Menu_GUI extends JFrame implements ActionListener
+{
+    private JLabel titleL,highscoreL,nameL;
+    private JButton startB,highscoreB,exitB,leftScrollB, rightScrollB;
+    private JTable highscoreT;
     private JLabel currentNumber;
-    private String[] namesHighscore = {"highscore.txt"};
-    private ArrayList<String[]> currentHighscore;
+    private String [] namesHighscore = {"highscore.txt"};
     private int currentIndex = 0;
-    private String[] temp1Array = new String[2];
+    private String [] temp1Array = new String[2];
+    private spaceSip.Menu_GUI menu_GUI;
+    private spaceSip.Highscore_GUI highscore_GUI;
 
     public static JFrame frame1 = new JFrame();
 
-    public Menu_GUI() {
-        frame1.setSize(640, 480);
+    public Menu_GUI() throws FileNotFoundException
+    {
+        //this.highscore_GUI = highscore_GUI;
+        frame1.setSize(800,600);
         Container mainP = frame1.getContentPane();
+        frame1.setLocationRelativeTo(null);
         mainP.setLayout(null);
         mainP.setVisible(true);
 
         titleL = new JLabel("SpAcE InVaDeRs");
+        titleL.setFont(new Font("Chiller",Font.BOLD,50));
+        titleL.setBounds(100, 20, 400, 50);
+        mainP.add(titleL);
+
         startB = new JButton(new ImageIcon(("C:\\Users\\Jan\\Desktop\\AoP 2\\Intelli\\untitled\\src\\start.png")));
-        highscoreB = new JButton(new ImageIcon(("C:\\Users\\Jan\\Desktop\\AoP 2\\Intelli\\untitled\\src\\highscore.png")));
-        highscoreB.setOpaque(false);
-        highscoreB.setContentAreaFilled(false);
-        highscoreB.setBorderPainted(false);
+        startB.setOpaque(false);
+        startB.setContentAreaFilled(true);
+        startB.setBorderPainted(true);
+        startB.setBounds(200, 80, 180, 29);
+        startB.setPreferredSize(new Dimension(180, 29));
+        startB.setOpaque(false);
+        mainP.add(startB);
 
         exitB = new JButton(new ImageIcon(("C:\\Users\\Jan\\Desktop\\AoP 2\\Intelli\\untitled\\src\\exit.png")));
         exitB.setOpaque(false);
-        exitB.setContentAreaFilled(false);
-        exitB.setBorderPainted(false);
+        exitB.setContentAreaFilled(true);
+        exitB.setBorderPainted(true);
+        exitB.setBounds(200, 190, 120, 31);
+        exitB.setPreferredSize(new Dimension(120, 31));
+        exitB.addActionListener(e -> {
+            //updateHighscore();
+            Object[] options = {"Yes","No","Cancel"};
+            int n = JOptionPane.showOptionDialog(frame1,
+                    "Continue?",
+                    "Would you like to continue?",
+                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[2]);
+            if (n == JOptionPane.YES_OPTION) {
+                System.out.println("Clicked Yes");
+                System.exit(0);
+            } else if (n == JOptionPane.NO_OPTION) {
+                System.out.println("Clicked No");
+                JOptionPane.getRootFrame().dispose();
+            } else if (n == JOptionPane.CANCEL_OPTION) {
+                System.out.println("Clicked Cancel");
+                JOptionPane.getRootFrame().dispose();
+            } else {
+                System.out.println("something else (like clicked the 'x' button)");
+            }
+        });
+        mainP.add(exitB);
 
-        mainP.add(titleL);
-        titleL.setFont(new Font("Chiller", Font.BOLD, 50));
-        titleL.setBounds(100, 20, 400, 50);
-
-        mainP.add(startB);
-        startB.setMnemonic(KeyEvent.VK_S);
-        startB.setBounds(200, 80, 180, 29);
-        startB.setPreferredSize(new Dimension(180, 29));
-
-        mainP.add(highscoreB);
-        highscoreB.setMnemonic(KeyEvent.VK_H);
+        highscoreB = new JButton(new ImageIcon(("C:\\Users\\Jan\\Desktop\\AoP 2\\Intelli\\untitled\\src\\highscore.png")));
+        highscoreB.setOpaque(false);
+        highscoreB.setContentAreaFilled(true);
+        highscoreB.setBorderPainted(true);
         highscoreB.setBounds(200, 135, 200, 26);
         highscoreB.setPreferredSize(new Dimension(200, 26));
         highscoreB.addActionListener(e -> {
             try {
                 readFile("highscore.txt");
                 System.out.println("Hat geklappt");
+                Highscore_GUI highscore_gui = new Highscore_GUI();
+                frame1.add(highscore_gui);
             } catch (FileNotFoundException fileNotFoundException) {
                 fileNotFoundException.printStackTrace();
+
+                //updateHighscore();
             }
         });
-        mainP.add(exitB);
-        exitB.setMnemonic(KeyEvent.VK_E);
-        exitB.setBounds(200, 190, 120, 31);
-        exitB.setPreferredSize(new Dimension(120, 31));
+        mainP.add(highscoreB);
 
         startB.addActionListener(this);
         highscoreB.addActionListener(this);
@@ -73,21 +104,22 @@ public class Menu_GUI extends JFrame implements ActionListener {
 
         frame1.setVisible(true);
         frame1.setResizable(false);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        frame1.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     private void updateHighscore() {
-        score.setText(currentHighscore.get(currentIndex)[0]);
-        currentNumber.setText(" Highscore " + (currentIndex + 1) + " von " + currentHighscore.size());
+        //nameT.setText(currentHighscore.get(currentIndex)[0]);
+        //highscoreT.setText(currentHighscore.get(currentIndex)[1]);
+        //currentNumber.setText(" Highscore " + (currentIndex + 1) + " von " + currentHighscore.size());
     }
 
-    public static void main(String[] args) {
-        new Menu();
+    public static void main(String[]args) throws FileNotFoundException {
+        new Menu_GUI();
     }
 
-    private void saveInternal() {
-        temp1Array[0] = name.getText();
-        temp1Array[1] = score.getText();
+    private void saveInternal(){
+        //temp1Array[0] = nameT.getText();
+        //temp1Array[1] = highscoreT.getText();
     }
 
     public static ArrayList readFile(String name) throws FileNotFoundException {
@@ -100,15 +132,15 @@ public class Menu_GUI extends JFrame implements ActionListener {
             reader = new BufferedReader(new FileReader(name));
             int i = 0;
 
-            String[] tempArray = new String[3];
+            String [] tempArray = new String[3];
 
             while ((str = reader.readLine()) != null) {
                 //Falls index < 6, dann schreibe String in String tempArray
-                if (i < 2) {
+                if(i < 2){
                     tempArray[i] = str;
                 }
                 //Falls index == 2, dann alle notwendigen Zeilen gelesen
-                if ((i == 2)) {
+                if ((i == 2)){
                     //Index wird wieder auf 0 gesetzt
                     i = 0;
                     //befülltes String Array wird der ArrayListe angefügt
@@ -128,7 +160,6 @@ public class Menu_GUI extends JFrame implements ActionListener {
         }
         return highscore;
     }
-
 
     @Override
     public void actionPerformed(ActionEvent e) {
