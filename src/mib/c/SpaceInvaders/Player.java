@@ -20,10 +20,10 @@ public class Player extends Sprite {
         width = ii.getImage().getWidth(null);
         setImage(ii.getImage());
 
-        int START_X = 270;
+        int START_X = 200;
         setX(START_X);
 
-        int START_Y = 280;
+        int START_Y = 600;
         setY(START_Y);
     }
 
