@@ -29,19 +29,18 @@ public class Board extends JPanel {
 
     private boolean inGame = true;
     private String explImg = "src/images/explosion.png";
-    private String message = "Game Over";
+    private String message = "Game Over Press ESC to go back to menu!";
 
     private Timer timer;
 
-
     public Board() {
+        // Reference to "SpaceInvaders or MainMenu needed here"
 
         initBoard();
         gameInit();
     }
 
     private void initBoard() {
-
         addKeyListener(new TAdapter());
         setFocusable(true);
         d = new Dimension(Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
@@ -53,14 +52,11 @@ public class Board extends JPanel {
         gameInit();
     }
 
-
     private void gameInit() {
-
         aliens = new ArrayList<>();
 
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 6; j++) {
-
                 var alien = new Alien(Commons.ALIEN_INIT_X + 44 * j,
                         Commons.ALIEN_INIT_Y + 44 * i);
                 aliens.add(alien);
@@ -72,51 +68,48 @@ public class Board extends JPanel {
     }
 
     private void drawAliens(Graphics g) {
-
         for (Alien alien : aliens) {
-
             if (alien.isVisible()) {
-
                 g.drawImage(alien.getImage(), alien.getX(), alien.getY(), this);
             }
 
             if (alien.isDying()) {
-
                 alien.die();
             }
         }
     }
 
     private void drawPlayer(Graphics g) {
-
         if (player.isVisible()) {
-
             g.drawImage(player.getImage(), player.getX(), player.getY(), this);
         }
 
         if (player.isDying()) {
-
             player.die();
             inGame = false;
         }
     }
 
+    private void drawHighScore(Graphics g) {
+        var small = new Font("Helvetica", Font.BOLD, 10);
+        String highscore = String.format("Highscore: %d", deaths);
+
+        g.setColor(Color.green);
+        g.setFont(small);
+        g.drawString(highscore, 0, 10);
+    }
+
     private void drawShot(Graphics g) {
-
         if (shot.isVisible()) {
-
             g.drawImage(shot.getImage(), shot.getX(), shot.getY(), this);
         }
     }
 
     private void drawBombing(Graphics g) {
-
         for (Alien a : aliens) {
-
             Alien.Bomb b = a.getBomb();
 
             if (!b.isDestroyed()) {
-
                 g.drawImage(b.getImage(), b.getX(), b.getY(), this);
             }
         }
@@ -130,13 +123,11 @@ public class Board extends JPanel {
     }
 
     private void doDrawing(Graphics g) {
-
         g.setColor(Color.black);
         g.fillRect(0, 0, d.width, d.height);
         g.setColor(Color.green);
 
         if (inGame) {
-
             g.drawLine(0, Commons.GROUND,
                     Commons.BOARD_WIDTH, Commons.GROUND);
 
@@ -144,9 +135,9 @@ public class Board extends JPanel {
             drawPlayer(g);
             drawShot(g);
             drawBombing(g);
+            drawHighScore(g);
 
         } else {
-
             if (timer.isRunning()) {
                 timer.stop();
             }
@@ -158,7 +149,6 @@ public class Board extends JPanel {
     }
 
     private void gameOver(Graphics g) {
-
         g.setColor(Color.black);
         g.fillRect(0, 0, Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
 
@@ -177,9 +167,7 @@ public class Board extends JPanel {
     }
 
     private void update() {
-
         if (deaths == Commons.NUMBER_OF_ALIENS_TO_DESTROY) {
-
             inGame = false;
             timer.stop();
             message = "Game won!";
@@ -190,12 +178,10 @@ public class Board extends JPanel {
 
         // shot
         if (shot.isVisible()) {
-
             int shotX = shot.getX();
             int shotY = shot.getY();
 
             for (Alien alien : aliens) {
-
                 int alienX = alien.getX();
                 int alienY = alien.getY();
 
@@ -227,30 +213,25 @@ public class Board extends JPanel {
         // aliens
 
         for (Alien alien : aliens) {
-
             int x = alien.getX();
 
             if (x >= Commons.BOARD_WIDTH - Commons.BORDER_RIGHT && direction != -1) {
-
                 direction = -1;
 
                 Iterator<Alien> i1 = aliens.iterator();
 
                 while (i1.hasNext()) {
-
                     Alien a2 = i1.next();
                     a2.setY(a2.getY() + Commons.GO_DOWN);
                 }
             }
 
             if (x <= Commons.BORDER_LEFT && direction != 1) {
-
                 direction = 1;
 
                 Iterator<Alien> i2 = aliens.iterator();
 
                 while (i2.hasNext()) {
-
                     Alien a = i2.next();
                     a.setY(a.getY() + Commons.GO_DOWN);
                 }
@@ -260,11 +241,9 @@ public class Board extends JPanel {
         Iterator<Alien> it = aliens.iterator();
 
         while (it.hasNext()) {
-
             Alien alien = it.next();
 
             if (alien.isVisible()) {
-
                 int y = alien.getY();
 
                 if (y > Commons.GROUND - Commons.ALIEN_HEIGHT) {
@@ -280,12 +259,10 @@ public class Board extends JPanel {
         var generator = new Random();
 
         for (Alien alien : aliens) {
-
             int shot = generator.nextInt(15);
             Alien.Bomb bomb = alien.getBomb();
 
             if (shot == Commons.CHANCE && alien.isVisible() && bomb.isDestroyed()) {
-
                 bomb.setDestroyed(false);
                 bomb.setX(alien.getX());
                 bomb.setY(alien.getY());
@@ -297,7 +274,6 @@ public class Board extends JPanel {
             int playerY = player.getY();
 
             if (player.isVisible() && !bomb.isDestroyed()) {
-
                 if ( bombX >= (playerX)
                         && bombX <= (playerX + Commons.PLAYER_WIDTH)
                         && bombY >= (playerY)
@@ -311,11 +287,9 @@ public class Board extends JPanel {
             }
 
             if (!bomb.isDestroyed()) {
-
                 bomb.setY(bomb.getY() + 1);
 
                 if (bomb.getY() >= Commons.GROUND - Commons.BOMB_HEIGHT) {
-
                     bomb.setDestroyed(true);
                 }
             }
@@ -323,7 +297,6 @@ public class Board extends JPanel {
     }
 
     private void doGameCycle() {
-
         update();
         repaint();
     }
@@ -332,7 +305,6 @@ public class Board extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
             doGameCycle();
         }
     }
@@ -341,13 +313,11 @@ public class Board extends JPanel {
 
         @Override
         public void keyReleased(KeyEvent e) {
-
             player.keyReleased(e);
         }
 
         @Override
         public void keyPressed(KeyEvent e) {
-
             player.keyPressed(e);
 
             int x = player.getX();
@@ -356,13 +326,17 @@ public class Board extends JPanel {
             int key = e.getKeyCode();
 
             if (key == KeyEvent.VK_SPACE) {
-
                 if (inGame) {
-
                     if (!shot.isVisible()) {
 
                         shot = new Shot(x, y);
                     }
+                }
+            }
+            else if (key == KeyEvent.VK_ESCAPE) {
+                if (!inGame) {
+                    // Start Menu Here
+                    System.out.println("Back to menu");
                 }
             }
         }
