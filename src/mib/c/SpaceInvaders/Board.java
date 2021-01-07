@@ -87,8 +87,10 @@ public class Board extends JPanel {
             createAliens();
 
             // Each new level is executed faster.
-            delay--;
-            timer.setDelay(delay);
+            if (delay > 0) {
+                delay--;
+                timer.setDelay(delay);
+            }
         }
 
         for (Alien alien : aliens) {
@@ -193,12 +195,6 @@ public class Board extends JPanel {
     }
 
     private void update() {
-        if (deaths == Commons.NUMBER_OF_ALIENS_TO_DESTROY) {
-            inGame = false;
-            timer.stop();
-            message = "Game won!";
-        }
-
         // player
         player.act();
 
