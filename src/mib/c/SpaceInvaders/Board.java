@@ -32,9 +32,11 @@ public class Board extends JPanel {
     private String message = "Game Over Press ESC to go back to menu!";
 
     private Timer timer;
+    private int delay;
 
     public Board() {
         // Reference to "SpaceInvaders or MainMenu needed here"
+        delay = Commons.DELAY;
 
         initBoard();
         gameInit();
@@ -55,6 +57,14 @@ public class Board extends JPanel {
     private void gameInit() {
         aliens = new ArrayList<>();
 
+       createAliens();
+
+        player = new Player();
+        shot = new Shot();
+    }
+
+    private void createAliens() {
+        aliens.clear();
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 6; j++) {
                 var alien = new Alien(Commons.ALIEN_INIT_X + 44 * j,
@@ -62,13 +72,29 @@ public class Board extends JPanel {
                 aliens.add(alien);
             }
         }
+    }
 
-        player = new Player();
-        shot = new Shot();
+    private boolean areAliensAlive() {
+        for (Alien alien: aliens)
+            if (alien.isVisible())
+                return true;
+
+        return false;
     }
 
     private void drawAliens(Graphics g) {
+        if (!areAliensAlive()) {
+            createAliens();
+
+            // Each new level is executed faster.
+            delay--;
+            timer.setDelay(delay);
+        }
+
         for (Alien alien : aliens) {
+            if (alien == null)
+                continue;
+
             if (alien.isVisible()) {
                 g.drawImage(alien.getImage(), alien.getX(), alien.getY(), this);
             }
