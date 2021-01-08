@@ -3,9 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,7 +92,7 @@ public class Highscore_GUI extends JFrame {
         frame1.setLocationRelativeTo(null);
         frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame1.setVisible(true);
-
+        setHighscore(highscoreT);
     }
 
     public static String[][] getHighscore() {
@@ -110,8 +108,8 @@ public class Highscore_GUI extends JFrame {
                 if (!tempHigh.trim().isEmpty()) {
                     highscore[i][0] = tempHigh;
                     highscore[i][1] = reader.readLine();
+                    tempHigh = reader.readLine();
                 }
-                tempHigh = reader.readLine();
             }
             return highscore;
         } catch (IOException e) {
@@ -122,6 +120,23 @@ public class Highscore_GUI extends JFrame {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private void setHighscore(JTable table){
+        try {
+            BufferedWriter myWriter = new BufferedWriter(new FileWriter("highscore.txt"));
+            myWriter.write("");
+            for(int i = 0; i <= table.getRowCount()-1; i++){
+
+                myWriter.append(table.getValueAt(i, 0).toString());
+                myWriter.append(table.getValueAt(i, 1).toString());
+            }
+            myWriter.close();
+            System.out.println("Successfully wrote to the file.");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
         }
     }
 }
