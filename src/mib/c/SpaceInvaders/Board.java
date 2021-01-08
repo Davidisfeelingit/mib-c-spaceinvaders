@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Random;
 
 public class Board extends JPanel {
-
     private Dimension d;
     private List<Alien> aliens;
     private Player player;
@@ -56,8 +55,7 @@ public class Board extends JPanel {
 
     private void gameInit() {
         aliens = new ArrayList<>();
-
-       createAliens();
+        createAliens();
 
         player = new Player();
         shot = new Shot();
@@ -65,6 +63,7 @@ public class Board extends JPanel {
 
     private void createAliens() {
         aliens.clear();
+
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 6; j++) {
                 var alien = new Alien(Commons.ALIEN_INIT_X + 44 * j,
@@ -233,7 +232,6 @@ public class Board extends JPanel {
         }
 
         // aliens
-
         for (Alien alien : aliens) {
             int x = alien.getX();
 
@@ -261,7 +259,6 @@ public class Board extends JPanel {
         }
 
         Iterator<Alien> it = aliens.iterator();
-
         while (it.hasNext()) {
             Alien alien = it.next();
 
@@ -277,7 +274,7 @@ public class Board extends JPanel {
             }
         }
 
-        // bombs
+        // Bombs
         var generator = new Random();
 
         for (Alien alien : aliens) {
@@ -346,11 +343,9 @@ public class Board extends JPanel {
             int y = player.getY();
 
             int key = e.getKeyCode();
-
             if (key == KeyEvent.VK_SPACE) {
                 if (inGame) {
                     if (!shot.isVisible()) {
-
                         shot = new Shot(x, y);
                     }
                 }
