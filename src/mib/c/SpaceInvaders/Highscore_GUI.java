@@ -38,10 +38,6 @@ public class Highscore_GUI extends JFrame {
         frame1.setVisible(true);
     }
 
-    public static void main(String[]args)
-    {
-        getHighscore();
-    }
     public static String[][] getHighscore(){
         FileReader readFile = null;
         BufferedReader reader = null;

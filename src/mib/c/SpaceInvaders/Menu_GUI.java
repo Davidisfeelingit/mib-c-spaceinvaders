@@ -2,10 +2,7 @@ package mib.c.SpaceInvaders;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 public class Menu_GUI extends JFrame implements ActionListener
@@ -37,7 +34,7 @@ public class Menu_GUI extends JFrame implements ActionListener
         titleL.setBounds(100, 20, 400, 50);
         mainP.add(titleL);
 
-        startB = new JButton(new ImageIcon(("C:\\Users\\Jan\\Desktop\\AoP 2\\Intelli\\untitled\\src\\start.png")));
+        startB = new JButton(new ImageIcon(("src/images/start.png")));
         startB.setOpaque(false);
         startB.setContentAreaFilled(true);
         startB.setBorderPainted(true);
@@ -46,7 +43,7 @@ public class Menu_GUI extends JFrame implements ActionListener
         startB.setOpaque(false);
         mainP.add(startB);
 
-        exitB = new JButton(new ImageIcon(("C:\\Users\\Jan\\Desktop\\AoP 2\\Intelli\\untitled\\src\\exit.png")));
+        exitB = new JButton(new ImageIcon(("src/images/exit.png")));
         exitB.setOpaque(false);
         exitB.setContentAreaFilled(true);
         exitB.setBorderPainted(true);
@@ -77,7 +74,10 @@ public class Menu_GUI extends JFrame implements ActionListener
         });
         mainP.add(exitB);
 
-        highscoreB = new JButton(new ImageIcon(("C:\\Users\\Jan\\Desktop\\AoP 2\\Intelli\\untitled\\src\\highscore.png")));
+        File currentDir = new File("");
+        System.out.println(currentDir.getAbsolutePath());
+
+        highscoreB = new JButton(new ImageIcon("src/images/highscore.png"));
         highscoreB.setOpaque(false);
         highscoreB.setContentAreaFilled(true);
         highscoreB.setBorderPainted(true);
@@ -86,7 +86,6 @@ public class Menu_GUI extends JFrame implements ActionListener
         highscoreB.addActionListener(e -> {
             try {
                 readFile("highscore.txt");
-                System.out.println("Hat geklappt");
                 Highscore_GUI highscore_gui = new Highscore_GUI();
                 frame1.add(highscore_gui);
                 frame1.setVisible(true);
