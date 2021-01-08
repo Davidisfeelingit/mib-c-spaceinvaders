@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Menu_GUI extends JFrame implements ActionListener
 {
     private JLabel titleL,highscoreL,nameL;
-    private JButton startB,highscoreB,exitB,leftScrollB, rightScrollB;
+    private JButton startB,highscoreB,exitB;
     private JTable highscoreT;
     private JLabel currentNumber;
     private String [] namesHighscore = {"highscore.txt"};
