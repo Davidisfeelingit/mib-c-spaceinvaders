@@ -5,12 +5,10 @@ import javax.swing.JFrame;
     public class SpaceInvaders extends JFrame  {
 
         public SpaceInvaders() {
-
             initUI();
         }
 
         private void initUI() {
-
             add(new Board());
 
             setTitle("Space Invaders");
@@ -22,7 +20,6 @@ import javax.swing.JFrame;
         }
 
         public static void main(String[] args) {
-
             EventQueue.invokeLater(() -> {
 
                 var ex = new SpaceInvaders();
