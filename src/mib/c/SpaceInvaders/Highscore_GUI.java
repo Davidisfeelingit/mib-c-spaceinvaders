@@ -18,7 +18,7 @@ public class Highscore_GUI extends JFrame {
         this.highscore_GUI = highscore_GUI;
         frame1.setSize(800,600);
         Container mainP = frame1.getContentPane();
-        //highscoreT.setLayout(new FlowLayout());
+        highscoreT.setLayout(new FlowLayout());
         highscoreT.setBounds(250, 135, 100, 100);
         String[] columnNames = {"Name","Score"};
         Object[][]currentHighscore = {
@@ -29,11 +29,13 @@ public class Highscore_GUI extends JFrame {
         highscoreT = new JTable(currentHighscore, columnNames);
         highscoreT.setPreferredScrollableViewportSize(new Dimension(200,100));
         highscoreT.setFillsViewportHeight(true);
-        frame1.setLocationRelativeTo(null);
-
+        JScrollPane scrollPane = new JScrollPane(highscoreT);
+        mainP.add(scrollPane);
         mainP.add(highscoreT);
-       // mainP.setLayout(null);
         mainP.setVisible(true);
+        frame1.setLocationRelativeTo(null);
+        frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame1.setVisible(true);
     }
 
     public static void main(String[]args)
@@ -60,5 +62,4 @@ public class Highscore_GUI extends JFrame {
             }
         }
     }
-
 }

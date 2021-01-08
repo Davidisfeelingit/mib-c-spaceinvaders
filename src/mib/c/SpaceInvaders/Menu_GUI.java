@@ -20,7 +20,7 @@ public class Menu_GUI extends JFrame implements ActionListener
     private String [] temp1Array = new String[2];
     private Menu_GUI menu_GUI;
     private Highscore_GUI highscore_GUI;
-    private int highscore = -1;
+    private JPanel panelMain,panel;
 
     public static JFrame frame1 = new JFrame();
 
@@ -54,7 +54,6 @@ public class Menu_GUI extends JFrame implements ActionListener
         exitB.setBounds(200, 190, 120, 31);
         exitB.setPreferredSize(new Dimension(120, 31));
         exitB.addActionListener(e -> {
-            //updateHighscore();
             Object[] options = {"Yes","No","Cancel"};
             int n = JOptionPane.showOptionDialog(frame1,
                     "Continue?",
@@ -91,10 +90,9 @@ public class Menu_GUI extends JFrame implements ActionListener
                 System.out.println("Hat geklappt");
                 Highscore_GUI highscore_gui = new Highscore_GUI();
                 frame1.add(highscore_gui);
+                frame1.setVisible(true);
             } catch (FileNotFoundException fileNotFoundException) {
                 fileNotFoundException.printStackTrace();
-
-                //updateHighscore();
             }
         });
         mainP.add(highscoreB);
@@ -108,19 +106,8 @@ public class Menu_GUI extends JFrame implements ActionListener
         frame1.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
-    private void updateHighscore() {
-        //nameT.setText(currentHighscore.get(currentIndex)[0]);
-        //highscoreT.setText(currentHighscore.get(currentIndex)[1]);
-        //currentNumber.setText(" Highscore " + (currentIndex + 1) + " von " + currentHighscore.size());
-    }
-
     public static void main(String[]args) throws FileNotFoundException {
         new Menu_GUI();
-    }
-
-    private void saveInternal(){
-        //temp1Array[0] = nameT.getText();
-        //temp1Array[1] = highscoreT.getText();
     }
 
     public static ArrayList readFile(String name) throws FileNotFoundException {
