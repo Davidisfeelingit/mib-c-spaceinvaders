@@ -43,15 +43,17 @@ public class Highscore_GUI extends JFrame {
 
     public static void main(String[]args)
     {
-
+        getHighscore();
     }
-    public String getHighscore(){
+    public static String getHighscore(){
         FileReader readFile = null;
         BufferedReader reader = null;
         try{
             readFile = new FileReader("highscore.txt");
             reader = new BufferedReader(readFile);
+            //System.out.println(reader.readLine());
             return reader.readLine();
+
         }
         catch (Exception e)
         {
