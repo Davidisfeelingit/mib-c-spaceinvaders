@@ -14,7 +14,7 @@ public class Highscore_GUI extends JFrame {
 
     public static JFrame frame1 = new JFrame();
 
-    public Highscore_GUI(String name, int points){
+    public Highscore_GUI(){
         this.highscore_GUI = highscore_GUI;
         frame1.setSize(800,600);
         Container mainP = frame1.getContentPane();
