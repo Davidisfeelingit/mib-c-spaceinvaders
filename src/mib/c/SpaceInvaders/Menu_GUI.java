@@ -8,7 +8,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
 public class Menu_GUI extends JFrame implements ActionListener
 {
     private JLabel titleL,highscoreL,nameL;
