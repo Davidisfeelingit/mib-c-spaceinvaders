@@ -15,11 +15,6 @@ public class Highscore_GUI extends JFrame {
     public static JFrame frame1 = new JFrame();
 
     public Highscore_GUI(){
-        this.highscore_GUI = highscore_GUI;
-        frame1.setSize(800,600);
-        Container mainP = frame1.getContentPane();
-        highscoreT.setLayout(new FlowLayout());
-        highscoreT.setBounds(250, 135, 100, 100);
         String[] columnNames = {"Name","Score"};
         Object[][]currentHighscore = {
                 {"Lucas","1000"},
@@ -27,6 +22,11 @@ public class Highscore_GUI extends JFrame {
                 {"Jan","3000"}
         };
         highscoreT = new JTable(currentHighscore, columnNames);
+        this.highscore_GUI = highscore_GUI;
+        frame1.setSize(800,600);
+        Container mainP = frame1.getContentPane();
+        highscoreT.setLayout(new FlowLayout());
+        highscoreT.setBounds(250, 135, 100, 100);
         frame1.setSize(800,600);
         highscoreT.setLayout(new FlowLayout());
         highscoreT.setBounds(250, 135, 100, 100);
