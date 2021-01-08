@@ -105,8 +105,10 @@ public class Highscore_GUI extends JFrame {
             String tempHigh = reader.readLine();
             int counter = 0;
             for (int i = 0; i < 10; i++){
-                highscore[i][0] = tempHigh;
-                highscore[i][1] = reader.readLine();;
+                if (!tempHigh.trim().isEmpty()) {
+                    highscore[i][0] = tempHigh;
+                    highscore[i][1] = reader.readLine();
+                }
                 tempHigh = reader.readLine();
             }
             return highscore;
