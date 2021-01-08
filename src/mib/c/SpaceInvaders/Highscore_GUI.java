@@ -6,16 +6,19 @@ import java.io.FileReader;
 import java.io.IOException;
 
 
-public class Highscore_GUI extends JScrollPane {
+public class Highscore_GUI extends JFrame {
 
-    private Menu_GUI Menu_GUI;
-    private Highscore_GUI Highscore_GUI;
-    private JTable highscoreT;
+    private Menu_GUI menu_GUI;
+    private Highscore_GUI highscore_GUI;
+    JTable highscoreT;
+
+    public static JFrame frame1 = new JFrame();
 
     public Highscore_GUI(){
-        super();
-        highscoreT = new JTable();
-        highscoreT.setLayout(new FlowLayout());
+        this.highscore_GUI = highscore_GUI;
+        frame1.setSize(800,600);
+        Container mainP = frame1.getContentPane();
+        //highscoreT.setLayout(new FlowLayout());
         highscoreT.setBounds(250, 135, 100, 100);
         String[] columnNames = {"Name","Score"};
         Object[][]currentHighscore = {
@@ -26,17 +29,16 @@ public class Highscore_GUI extends JScrollPane {
         highscoreT = new JTable(currentHighscore, columnNames);
         highscoreT.setPreferredScrollableViewportSize(new Dimension(200,100));
         highscoreT.setFillsViewportHeight(true);
+        frame1.setLocationRelativeTo(null);
 
-        add(highscoreT);
+        mainP.add(highscoreT);
+       // mainP.setLayout(null);
+        mainP.setVisible(true);
     }
 
     public static void main(String[]args)
     {
-        Highscore_GUI Highscore_GUI = new Highscore_GUI();
-        //Highscore_GUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Highscore_GUI.setSize(800,600);
-        Highscore_GUI.setVisible(true);
-        //Highscore_GUI.setTitle("Highscore");
+
     }
     public String getHighscore(){
         FileReader readFile = null;

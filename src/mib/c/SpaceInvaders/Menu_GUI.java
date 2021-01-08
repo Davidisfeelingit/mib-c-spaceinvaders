@@ -26,7 +26,7 @@ public class Menu_GUI extends JFrame implements ActionListener
 
     public Menu_GUI() throws FileNotFoundException
     {
-        //this.highscore_GUI = highscore_GUI;
+        this.highscore_GUI = highscore_GUI;
         frame1.setSize(800,600);
         Container mainP = frame1.getContentPane();
         frame1.setLocationRelativeTo(null);
