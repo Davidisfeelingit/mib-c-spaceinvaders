@@ -87,8 +87,6 @@ public class Menu_GUI extends JFrame implements ActionListener
             try {
                 readFile("highscore.txt");
                 Highscore_GUI highscore_gui = new Highscore_GUI();
-                frame1.add(highscore_gui);
-                frame1.setVisible(true);
             } catch (FileNotFoundException fileNotFoundException) {
                 fileNotFoundException.printStackTrace();
             }
