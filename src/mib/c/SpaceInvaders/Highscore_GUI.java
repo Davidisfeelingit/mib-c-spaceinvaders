@@ -30,7 +30,7 @@ public class Highscore_GUI extends JPanel {
         JPanel contentPanel = new JPanel(null);
 
         String[] columnNames = {"Name","Score"};
-        JTable highscoreT = new JTable(readHighScore(), columnNames);
+        JTable highscoreT = new JTable(Highscore.readHighscore(), columnNames);
         highscoreT.setEnabled(false);
         highscoreT.setLayout(new FlowLayout());
         highscoreT.setSize(300, 300);
@@ -58,34 +58,6 @@ public class Highscore_GUI extends JPanel {
 
         add(contentPanel);
         setVisible(true);
-    }
-
-    private static String[][] readHighScore() {
-        try {
-            // Read json file.
-            Path path = Path.of("highscore.json");
-            String content = Files.readString(path, StandardCharsets.UTF_8);
-
-            // Convert to json array.
-            JSONObject object = new JSONObject(content);
-            JSONArray highscore = object.getJSONArray("highscore");
-
-            // Convert to 2d array.
-            String[][] highscoreTable = new String[highscore.length()][2];
-            for (int  i = 0; i < highscore.length(); i++) {
-                String score = highscore.getString(i);
-                String[] splits =  score.split(":");
-
-                highscoreTable[i][0] = splits[0];
-                highscoreTable[i][1] = splits[1];
-            }
-
-            return highscoreTable;
-        } catch (Exception e) {
-            System.out.print(e);
-        }
-
-        return null;
     }
 
     private void setHighscore(JTable table){

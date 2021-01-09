@@ -31,7 +31,7 @@ public class Menu_GUI extends JPanel implements ActionListener {
 
         // Start button.
         JButton startButton = new JButton(new ImageIcon(("src/images/start.png")));
-        startButton.addActionListener((e) -> startGame());
+        startButton.addActionListener((e) -> this.main_gui.openGameBoard());
         startButton.setOpaque(false);
         startButton.setContentAreaFilled(true);
         startButton.setBorderPainted(true);
@@ -70,16 +70,6 @@ public class Menu_GUI extends JPanel implements ActionListener {
 
         add(buttonPanel);
         setVisible(true);
-    }
-
-    public void startGame() {
-      this.main_gui.openGameBoard();
-        /*  EventQueue.invokeLater(() -> {
-            var ex = new SpaceInvaders();
-            ex.setVisible(true);
-        });
-        this.setVisible(false);*/
-        //this.dispose();
     }
 
     @Override

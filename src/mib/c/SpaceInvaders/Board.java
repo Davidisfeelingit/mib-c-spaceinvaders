@@ -1,11 +1,7 @@
 package mib.c.SpaceInvaders;
 
 import javax.swing.*;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -171,28 +167,46 @@ public class Board extends JPanel {
                 timer.stop();
             }
 
-            gameOver(g);
+            gameOver();
         }
 
         Toolkit.getDefaultToolkit().sync();
     }
 
-    private void gameOver(Graphics g) {
-        g.setColor(Color.black);
-        g.fillRect(0, 0, Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
+    private void gameOver() {
+        showGameOverAlert();
+    }
 
-        g.setColor(new Color(0, 32, 48));
-        g.fillRect(50, Commons.BOARD_WIDTH / 2 - 30, Commons.BOARD_WIDTH - 100, 50);
-        g.setColor(Color.white);
-        g.drawRect(50, Commons.BOARD_WIDTH / 2 - 30, Commons.BOARD_WIDTH - 100, 50);
+    private void goBackToMenu() {
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
 
-        var small = new Font("Helvetica", Font.BOLD, 14);
-        var fontMetrics = this.getFontMetrics(small);
+        try {
+            this.main_gui.openMenuGUI();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
-        g.setColor(Color.white);
-        g.setFont(small);
-        g.drawString(message, (Commons.BOARD_WIDTH - fontMetrics.stringWidth(message)) / 2,
-                Commons.BOARD_WIDTH / 2);
+        topFrame.dispose();
+    }
+
+    private void showGameOverAlert() {
+        String result = (String)JOptionPane.showInputDialog(
+                this,
+                String.format("Your highscore:    %d", deaths),
+                "Game Over",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                null,
+                ""
+        );
+
+        if(result != null && result.length() > 0){
+            String highscore = String.format("%s:%d", result, deaths);
+            Highscore.saveHighscore(highscore);
+
+        }
+
+        goBackToMenu();
     }
 
     private void update() {
@@ -317,22 +331,6 @@ public class Board extends JPanel {
         }
     }
 
-    private void goBackToMenu() {
-        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-
-        try {
-            this.main_gui.openMenuGUI();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        topFrame.dispose();
-    }
-
-    private void finalizeGame() {
-        
-    }
-
     private void doGameCycle() {
         update();
         repaint();
@@ -369,9 +367,7 @@ public class Board extends JPanel {
             }
             else if (key == KeyEvent.VK_ESCAPE) {
                 if (!inGame) {
-                    // Start Menu Here
-                    goBackToMenu();
-                    System.out.println("Back to menu");
+
 
                 }
             }
