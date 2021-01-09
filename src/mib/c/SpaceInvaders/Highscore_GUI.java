@@ -1,5 +1,4 @@
 package mib.c.SpaceInvaders;
-
 import org.json.JSONArray;
 import org.json.JSONObject;;
 
@@ -47,7 +46,7 @@ public class Highscore_GUI extends JFrame {
         panel.setVisible(true);
         panel1.setVisible(true);
 
-        leaveHighB = new JButton("LeaveHigh");
+        leaveHighB = new JButton(new ImageIcon(("src/images/exit.png")));
         leaveHighB.setOpaque(false);
         leaveHighB.setContentAreaFilled(true);
         leaveHighB.setBorderPainted(true);
@@ -63,7 +62,7 @@ public class Highscore_GUI extends JFrame {
         //mainP.add(leaveHighB);
         panel1.add(leaveHighB);
 
-        saveB = new JButton("Save");
+        saveB = new JButton(new ImageIcon(("src/images/save.png")));
         saveB.setOpaque(false);
         saveB.setContentAreaFilled(true);
         saveB.setBorderPainted(true);
