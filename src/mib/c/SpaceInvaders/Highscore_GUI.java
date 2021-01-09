@@ -90,16 +90,16 @@ public class Highscore_GUI extends JFrame {
             JSONArray highscore = object.getJSONArray("highscore");
 
             // Convert to 2d array.
-            String[][] highdcoreTable = new String[highscore.length()][2];
+            String[][] highscoreTable = new String[highscore.length()][2];
             for (int  i = 0; i < highscore.length(); i++) {
                 String score = highscore.getString(i);
                 String[] splits =  score.split(":");
 
-                highdcoreTable[i][0] = splits[0];
-                highdcoreTable[i][1] = splits[1];
+                highscoreTable[i][0] = splits[0];
+                highscoreTable[i][1] = splits[1];
             }
 
-            return highdcoreTable;
+            return highscoreTable;
         } catch (Exception e) {
             System.out.print(e);
         }
