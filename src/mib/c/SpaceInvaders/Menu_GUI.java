@@ -51,7 +51,11 @@ public class Menu_GUI extends JFrame implements ActionListener {
         exitB.setBounds(200, 190, 120, 31);
         exitB.setPreferredSize(new Dimension(120, 31));
         exitB.addActionListener(e -> {
-            System.exit(0);
+            //System.exit(0);
+            int result = JOptionPane.showConfirmDialog(frame1,
+                    "Are you sure you want to quit?",
+                    "Confirm Quit", JOptionPane.YES_NO_CANCEL_OPTION);
+            if (result == JOptionPane.YES_OPTION) System.exit(0);
         });
         mainP.add(exitB);
 

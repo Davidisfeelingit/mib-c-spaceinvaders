@@ -66,8 +66,8 @@ public class Highscore_GUI extends JFrame {
         saveB.setOpaque(false);
         saveB.setContentAreaFilled(true);
         saveB.setBorderPainted(true);
-        saveB.setBounds(124, 250, 120, 31);
-        saveB.setPreferredSize(new Dimension(120, 31));
+        saveB.setBounds(124, 250, 120, 36);
+        saveB.setPreferredSize(new Dimension(120, 36));
         saveB.setOpaque(false);
         //mainP.add(saveB);
         panel1.add(saveB);
