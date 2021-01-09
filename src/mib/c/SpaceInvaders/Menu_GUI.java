@@ -8,7 +8,7 @@ import java.awt.event.*;
 import java.io.*;
 import java.util.ArrayList;
 
-public class Menu_GUI extends JFrame implements ActionListener {
+public class Menu_GUI extends JPanel implements ActionListener {
     private JLabel titleL, highscoreL, nameL;
     private JButton startB, highscoreB, exitB;
     private JTable highscoreT;
@@ -16,54 +16,44 @@ public class Menu_GUI extends JFrame implements ActionListener {
     private String[] namesHighscore = {"highscore.txt"};
     private int currentIndex = 0;
     private String[] temp1Array = new String[2];
-    private Menu_GUI menu_GUI;
-    private Highscore_GUI highscore_GUI;
-    private JPanel panelMain, panel;
 
-    public static JFrame frame1 = new JFrame();
+
 
     public Menu_GUI() throws FileNotFoundException {
-        frame1.setSize(800, 600);
-        Container mainP = frame1.getContentPane();
-        frame1.setLocationRelativeTo(null);
-        mainP.setLayout(null);
-        mainP.setVisible(true);
+        setSize(800, 600);
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setAlignmentX(Component.CENTER_ALIGNMENT);
 
         titleL = new JLabel("SpAcE InVaDeRs");
         titleL.setFont(new Font("Chiller", Font.BOLD, 50));
-        titleL.setBounds(100, 20, 400, 50);
-        mainP.add(titleL);
+        titleL.setAlignmentX(Component.CENTER_ALIGNMENT);
+        //titleL.setBounds(100, 20, 400, 50);
+        add(titleL);
 
+
+        JPanel buttonPanel = new JPanel(null);
+
+        // Start button.
         startB = new JButton(new ImageIcon(("src/images/start.png")));
         startB.addActionListener((e) -> startGame());
         startB.setOpaque(false);
         startB.setContentAreaFilled(true);
         startB.setBorderPainted(true);
-        startB.setBounds(200, 80, 180, 29);
+        startB.setBounds(310, 80, 180, 29);
         startB.setPreferredSize(new Dimension(180, 29));
         startB.setOpaque(false);
-        mainP.add(startB);
+        startB.setAlignmentX(Component.CENTER_ALIGNMENT);
+        buttonPanel.add(startB);
 
-        exitB = new JButton(new ImageIcon(("src/images/exit.png")));
-        exitB.setOpaque(false);
-        exitB.setContentAreaFilled(true);
-        exitB.setBorderPainted(true);
-        exitB.setBounds(200, 190, 120, 31);
-        exitB.setPreferredSize(new Dimension(120, 31));
-        exitB.addActionListener(e -> {
-            System.exit(0);
-        });
-        mainP.add(exitB);
-
-        File currentDir = new File("");
-        System.out.println(currentDir.getAbsolutePath());
-
+        // Highscore button.
         highscoreB = new JButton(new ImageIcon("src/images/highscore.png"));
         highscoreB.setOpaque(false);
         highscoreB.setContentAreaFilled(true);
         highscoreB.setBorderPainted(true);
-        highscoreB.setBounds(200, 135, 200, 26);
+        highscoreB.setBounds(300, 135, 200, 26);
         highscoreB.setPreferredSize(new Dimension(200, 26));
+        /*highscoreB.setAlignmentX(Component.CENTER_ALIGNMENT);
+        highscoreB.setAlignmentY(Component.CENTER_ALIGNMENT);*/
         highscoreB.addActionListener(e -> {
             try {
                 readFile("highscore.txt");
@@ -72,15 +62,28 @@ public class Menu_GUI extends JFrame implements ActionListener {
                 fileNotFoundException.printStackTrace();
             }
         });
-        mainP.add(highscoreB);
+        buttonPanel.add(highscoreB);
+
+        // Exit button.
+        exitB = new JButton(new ImageIcon(("src/images/exit.png")));
+        exitB.setOpaque(false);
+        exitB.setContentAreaFilled(true);
+        exitB.setBorderPainted(true);
+        exitB.setBounds(340, 190, 120, 31);
+        exitB.setPreferredSize(new Dimension(120, 31));
+        exitB.setAlignmentX(Component.CENTER_ALIGNMENT);
+        exitB.addActionListener(e -> {
+            System.exit(0);
+        });
+        buttonPanel.add(exitB);
+
+        add(buttonPanel);
 
         startB.addActionListener(this);
         highscoreB.addActionListener(this);
         exitB.addActionListener(this);
 
-        frame1.setVisible(true);
-        frame1.setResizable(false);
-        frame1.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setVisible(true);
     }
 
     public void startGame() {
@@ -89,7 +92,7 @@ public class Menu_GUI extends JFrame implements ActionListener {
             ex.setVisible(true);
         });
         this.setVisible(false);
-        this.dispose();
+        //this.dispose();
     }
 
     public static void main(String[] args) throws FileNotFoundException {
