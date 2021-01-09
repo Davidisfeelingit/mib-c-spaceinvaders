@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Main_GUI extends JFrame {
-
+    public Character character = new Character();
     public Main_GUI() {
         setSize(800, 600);
         Container mainPanel = getContentPane();
@@ -21,6 +21,7 @@ public class Main_GUI extends JFrame {
 
     public static void main(String args[]) {
         new Main_GUI();
+
     }
 
     public void openMenuGUI() {
@@ -42,4 +43,12 @@ public class Main_GUI extends JFrame {
             ex.setVisible(true);
         });
     }
+
+    public void openCharacterGUI() {
+        this.getContentPane().removeAll();
+        this.repaint();
+        this.getContentPane().add(new Character_GUI(this));
+        this.setVisible(true);
+    }
+
 }

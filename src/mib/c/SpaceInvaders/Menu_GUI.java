@@ -11,7 +11,6 @@ public class Menu_GUI extends JPanel implements ActionListener {
 
     public Menu_GUI(Main_GUI main_GUI) {
         this.main_gui = main_GUI;
-
         setSize(800, 600);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -62,6 +61,20 @@ public class Menu_GUI extends JPanel implements ActionListener {
         });
         exitButton.addActionListener(this);
         buttonPanel.add(exitButton);
+
+        //Character Button
+        JButton characterButton = new JButton(new ImageIcon(("src/images/exit.png")));
+        characterButton.setOpaque(false);
+        characterButton.setContentAreaFilled(true);
+        characterButton.setBorderPainted(true);
+        characterButton.setBounds(340, 230, 120, 31);
+        characterButton.setPreferredSize(new Dimension(120, 31));
+        characterButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        characterButton.addActionListener(e -> {
+        this.main_gui.openCharacterGUI();
+        });
+        characterButton.addActionListener(this);
+        buttonPanel.add(characterButton);
 
         add(buttonPanel);
         setVisible(true);
