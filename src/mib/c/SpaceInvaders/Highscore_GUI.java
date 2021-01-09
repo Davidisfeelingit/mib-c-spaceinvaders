@@ -10,72 +10,54 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
-public class Highscore_GUI extends JFrame {
+public class Highscore_GUI extends JPanel {
 
-    private Highscore_GUI highscore_GUI;
-    private JButton saveB,leaveHighB;
-    JTable highscoreT;
+    private Main_GUI main_gui;
 
-    public static JFrame frame1 = new JFrame();
+    public Highscore_GUI(Main_GUI main_GUI){
+        this.main_gui = main_GUI;
 
-    public Highscore_GUI(){
+        setSize(800, 600);
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // Title
+        JLabel titleLabel = new JLabel("HiGh ScOrE");
+        titleLabel.setFont(new Font("Chiller", Font.BOLD, 50));
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        add(titleLabel);
+
+        JPanel contentPanel = new JPanel(null);
+
         String[] columnNames = {"Name","Score"};
-        highscoreT = new JTable(readHighScore(), columnNames);
-        this.highscore_GUI = highscore_GUI;
+        JTable highscoreT = new JTable(readHighScore(), columnNames);
         highscoreT.setEnabled(false);
-
-        frame1.setSize(800,600);
-        Container mainP = frame1.getContentPane();
-        Container panel = frame1.getContentPane();
-        Container panel1 = frame1.getContentPane();
-        panel.setLayout(new BoxLayout(panel,BoxLayout.X_AXIS));
-        panel.setBounds(250, 50, 200, 90);
-        panel1.setLayout(null);
-
-        //frame1.setLayout(new BoxLayout(mainP, BoxLayout.PAGE_AXIS));
         highscoreT.setLayout(new FlowLayout());
-        highscoreT.setBounds(250, 50, 200, 160);
+        highscoreT.setSize(300, 300);
+        highscoreT.setBounds(300, 50, 200, 160);
         highscoreT.setLayout(new FlowLayout());
         highscoreT.setPreferredScrollableViewportSize(new Dimension(200,100));
         highscoreT.setFillsViewportHeight(true);
         highscoreT.setAlignmentX(Component.CENTER_ALIGNMENT);
+        contentPanel.add(highscoreT);
 
-        JScrollPane scrollPane = new JScrollPane(highscoreT);
-        panel.add(highscoreT);
-        mainP.setVisible(true);
-        panel.setVisible(true);
-        panel1.setVisible(true);
-
-        leaveHighB = new JButton(new ImageIcon(("src/images/exit.png")));
+        JButton leaveHighB = new JButton(new ImageIcon(("src/images/exit.png")));
         leaveHighB.setOpaque(false);
         leaveHighB.setContentAreaFilled(true);
         leaveHighB.setBorderPainted(true);
-        leaveHighB.setBounds(450, 250, 120, 31);
+        leaveHighB.setBounds(340, 250, 120, 31);
         leaveHighB.setPreferredSize(new Dimension(120, 31));
         leaveHighB.addActionListener(e -> {
             try {
-                new Menu_GUI();
+                main_gui.openMenuGUI();
             } catch (FileNotFoundException fileNotFoundException) {
                 fileNotFoundException.printStackTrace();
             }
         });
-        //mainP.add(leaveHighB);
-        panel1.add(leaveHighB);
+        contentPanel.add(leaveHighB);
 
-        saveB = new JButton(new ImageIcon(("src/images/save.png")));
-        saveB.setOpaque(false);
-        saveB.setContentAreaFilled(true);
-        saveB.setBorderPainted(true);
-        saveB.setBounds(124, 250, 120, 36);
-        saveB.setPreferredSize(new Dimension(120, 36));
-        saveB.setOpaque(false);
-        //mainP.add(saveB);
-        panel1.add(saveB);
-
-        frame1.setLocationRelativeTo(null);
-        frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame1.setVisible(true);
-        setHighscore(highscoreT);
+        add(contentPanel);
+        setVisible(true);
     }
 
     private static String[][] readHighScore() {

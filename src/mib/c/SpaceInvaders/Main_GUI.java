@@ -14,13 +14,25 @@ public class Main_GUI extends JFrame {
         mainPanel.setVisible(true);
 
         // Create Content Panels here
-        Menu_GUI menu = new Menu_GUI();
-        getContentPane().add(menu);
+        openMenuGUI();
 
         setVisible(true);
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
 
+    public void openMenuGUI() throws FileNotFoundException {
+        //this.setEnabled(false);
+        this.getContentPane().removeAll();
+        this.getContentPane().add(new Menu_GUI(this));
+        this.setVisible(true);
+    }
+
+    public void openHighScoreGUI() {
+        //this.setEnabled(false);
+        this.getContentPane().removeAll();
+        this.getContentPane().add(new Highscore_GUI(this));
+        this.setVisible(true);
     }
 
     public static void main(String args[]) {

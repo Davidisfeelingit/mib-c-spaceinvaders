@@ -12,11 +12,16 @@ import java.util.ArrayList;
 
 public class Menu_GUI extends JPanel implements ActionListener {
 
-    public Menu_GUI() throws FileNotFoundException {
+    private Main_GUI main_gui;
+
+    public Menu_GUI(Main_GUI main_GUI) throws FileNotFoundException {
+        this.main_gui = main_GUI;
+
         setSize(800, 600);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        // Title
         JLabel titleLabel = new JLabel("SpAcE InVaDeRs");
         titleLabel.setFont(new Font("Chiller", Font.BOLD, 50));
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -44,7 +49,7 @@ public class Menu_GUI extends JPanel implements ActionListener {
         highscoreButton.setBounds(300, 135, 200, 26);
         highscoreButton.setPreferredSize(new Dimension(200, 26));
         highscoreButton.addActionListener(e -> {
-            Highscore_GUI highscore_gui = new Highscore_GUI();
+            this.main_gui.openHighScoreGUI();
         });
         highscoreButton.addActionListener(this);
         buttonPanel.add(highscoreButton);
@@ -65,10 +70,6 @@ public class Menu_GUI extends JPanel implements ActionListener {
 
         add(buttonPanel);
         setVisible(true);
-    }
-
-    public static void main(String[] args) throws FileNotFoundException {
-        new Menu_GUI();
     }
 
     public void startGame() {
