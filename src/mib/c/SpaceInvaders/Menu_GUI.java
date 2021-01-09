@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class Menu_GUI extends JPanel implements ActionListener {
 
@@ -58,13 +60,25 @@ public class Menu_GUI extends JPanel implements ActionListener {
         exitButton.setPreferredSize(new Dimension(120, 31));
         exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         exitButton.addActionListener(e -> {
-            System.exit(0);
+                int confirmed = JOptionPane.showConfirmDialog(null,
+                        "Are you sure you want to exit the program?",
+                        "Exit Program Message Box",
+                        JOptionPane.YES_NO_OPTION);
+
+                if (confirmed == JOptionPane.YES_OPTION) {
+                    main_GUI.dispose();
+                }
         });
+
         exitButton.addActionListener(this);
         buttonPanel.add(exitButton);
 
         add(buttonPanel);
         setVisible(true);
+
+    }
+
+    private void setDefaultCloseOperation(int doNothingOnClose) {
     }
 
     @Override
