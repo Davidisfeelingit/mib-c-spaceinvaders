@@ -4,12 +4,12 @@ import javax.swing.JFrame;
 
     public class SpaceInvaders extends JFrame  {
 
-        public SpaceInvaders() {
-            initUI();
+        public SpaceInvaders(Main_GUI main_GUI) {
+            initUI(main_GUI);
         }
 
-        private void initUI() {
-            add(new Board());
+        private void initUI(Main_GUI main_GUI) {
+            add(new Board(main_GUI));
 
             setTitle("Space Invaders");
             setSize(Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
@@ -17,14 +17,6 @@ import javax.swing.JFrame;
             setDefaultCloseOperation(EXIT_ON_CLOSE);
             setResizable(false);
             setLocationRelativeTo(null);
-        }
-
-        public static void main(String[] args) {
-            EventQueue.invokeLater(() -> {
-
-                var ex = new SpaceInvaders();
-                ex.setVisible(true);
-            });
         }
     }
 

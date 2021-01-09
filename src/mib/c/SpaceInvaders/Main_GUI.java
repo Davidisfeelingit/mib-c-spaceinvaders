@@ -22,17 +22,24 @@ public class Main_GUI extends JFrame {
     }
 
     public void openMenuGUI() throws FileNotFoundException {
-        //this.setEnabled(false);
         this.getContentPane().removeAll();
         this.getContentPane().add(new Menu_GUI(this));
         this.setVisible(true);
     }
 
     public void openHighScoreGUI() {
-        //this.setEnabled(false);
         this.getContentPane().removeAll();
         this.getContentPane().add(new Highscore_GUI(this));
         this.setVisible(true);
+    }
+
+    public void openGameBoard() {
+        this.setVisible(false);
+        //this.getContentPane().setVisible(false);
+        EventQueue.invokeLater(() -> {
+            var ex = new SpaceInvaders(this);
+            ex.setVisible(true);
+        });
     }
 
     public static void main(String args[]) {
@@ -42,6 +49,5 @@ public class Main_GUI extends JFrame {
             e.printStackTrace();
         }
     }
-
 
 }

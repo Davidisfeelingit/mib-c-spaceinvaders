@@ -1,8 +1,6 @@
 package mib.c.SpaceInvaders;
 
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-import javax.swing.Timer;
+import javax.swing.*;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -12,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -33,7 +32,11 @@ public class Board extends JPanel {
     private Timer timer;
     private int delay;
 
-    public Board() {
+    private Main_GUI main_gui;
+
+    public Board(Main_GUI main_GUI) {
+        this.main_gui = main_GUI;
+
         // Reference to "SpaceInvaders or MainMenu needed here"
         delay = Commons.DELAY;
         initBoard();
@@ -314,13 +317,28 @@ public class Board extends JPanel {
         }
     }
 
+    private void goBackToMenu() {
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+
+        try {
+            this.main_gui.openMenuGUI();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        topFrame.dispose();
+    }
+
+    private void finalizeGame() {
+        
+    }
+
     private void doGameCycle() {
         update();
         repaint();
     }
 
     private class GameCycle implements ActionListener {
-
         @Override
         public void actionPerformed(ActionEvent e) {
             doGameCycle();
@@ -352,7 +370,9 @@ public class Board extends JPanel {
             else if (key == KeyEvent.VK_ESCAPE) {
                 if (!inGame) {
                     // Start Menu Here
+                    goBackToMenu();
                     System.out.println("Back to menu");
+
                 }
             }
         }

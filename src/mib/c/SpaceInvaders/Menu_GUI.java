@@ -73,11 +73,12 @@ public class Menu_GUI extends JPanel implements ActionListener {
     }
 
     public void startGame() {
-        EventQueue.invokeLater(() -> {
+      this.main_gui.openGameBoard();
+        /*  EventQueue.invokeLater(() -> {
             var ex = new SpaceInvaders();
             ex.setVisible(true);
         });
-        this.setVisible(false);
+        this.setVisible(false);*/
         //this.dispose();
     }
 
