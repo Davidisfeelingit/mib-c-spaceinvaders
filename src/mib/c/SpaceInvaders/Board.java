@@ -36,7 +36,6 @@ public class Board extends JPanel {
     public Board() {
         // Reference to "SpaceInvaders or MainMenu needed here"
         delay = Commons.DELAY;
-
         initBoard();
         gameInit();
     }
