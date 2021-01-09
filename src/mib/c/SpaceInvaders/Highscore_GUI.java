@@ -1,20 +1,14 @@
 package mib.c.SpaceInvaders;
-import org.json.JSONArray;
-import org.json.JSONObject;;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
+import java.io.FileNotFoundException;
 
 public class Highscore_GUI extends JPanel {
 
     private Main_GUI main_gui;
 
-    public Highscore_GUI(Main_GUI main_GUI){
+    public Highscore_GUI(Main_GUI main_GUI) {
         this.main_gui = main_GUI;
 
         setSize(800, 600);
@@ -29,14 +23,14 @@ public class Highscore_GUI extends JPanel {
 
         JPanel contentPanel = new JPanel(null);
 
-        String[] columnNames = {"Name","Score"};
+        String[] columnNames = {"Name", "Score"};
         JTable highscoreT = new JTable(Highscore.readHighscore(), columnNames);
         highscoreT.setEnabled(false);
         highscoreT.setLayout(new FlowLayout());
         highscoreT.setSize(300, 300);
         highscoreT.setBounds(300, 50, 200, 160);
         highscoreT.setLayout(new FlowLayout());
-        highscoreT.setPreferredScrollableViewportSize(new Dimension(200,100));
+        highscoreT.setPreferredScrollableViewportSize(new Dimension(200, 100));
         highscoreT.setFillsViewportHeight(true);
         highscoreT.setAlignmentX(Component.CENTER_ALIGNMENT);
         contentPanel.add(highscoreT);
@@ -48,32 +42,11 @@ public class Highscore_GUI extends JPanel {
         leaveHighB.setBounds(340, 250, 120, 31);
         leaveHighB.setPreferredSize(new Dimension(120, 31));
         leaveHighB.addActionListener(e -> {
-            try {
                 main_gui.openMenuGUI();
-            } catch (FileNotFoundException fileNotFoundException) {
-                fileNotFoundException.printStackTrace();
-            }
         });
         contentPanel.add(leaveHighB);
 
         add(contentPanel);
         setVisible(true);
-    }
-
-    private void setHighscore(JTable table){
-        try {
-            BufferedWriter myWriter = new BufferedWriter(new FileWriter("highscore.txt"));
-            myWriter.write("");
-            for(int i = 0; i <= table.getRowCount()-1; i++){
-
-                myWriter.append(table.getValueAt(i, 0).toString());
-                myWriter.append(table.getValueAt(i, 1).toString());
-            }
-            myWriter.close();
-            System.out.println("Successfully wrote to the file.");
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
     }
 }

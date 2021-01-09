@@ -21,14 +21,13 @@ public class Highscore {
 
             // Convert to 2d array.
             String[][] highscoreTable = new String[highscore.length()][2];
-            for (int  i = 0; i < highscore.length(); i++) {
+            for (int i = 0; i < highscore.length(); i++) {
                 String score = highscore.getString(i);
-                String[] splits =  score.split(":");
+                String[] splits = score.split(":");
 
                 highscoreTable[i][0] = splits[0];
                 highscoreTable[i][1] = splits[1];
             }
-
             return highscoreTable;
         } catch (Exception e) {
             System.out.print(e);
@@ -49,7 +48,6 @@ public class Highscore {
 
             // Write to file
             Files.write(Path.of("highscore.json"), object.toString().getBytes(StandardCharsets.UTF_8));
-
         } catch (Exception e) {
             System.out.print(e);
         }

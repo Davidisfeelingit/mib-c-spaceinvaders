@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -23,7 +22,6 @@ public class Board extends JPanel {
 
     private boolean inGame = true;
     private String explImg = "src/images/explosion.png";
-    private String message = "Game Over Press ESC to go back to menu!";
 
     private Timer timer;
     private int delay;
@@ -33,7 +31,6 @@ public class Board extends JPanel {
     public Board(Main_GUI main_GUI) {
         this.main_gui = main_GUI;
 
-        // Reference to "SpaceInvaders or MainMenu needed here"
         delay = Commons.DELAY;
         initBoard();
         gameInit();
@@ -179,13 +176,7 @@ public class Board extends JPanel {
 
     private void goBackToMenu() {
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-
-        try {
-            this.main_gui.openMenuGUI();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
+        this.main_gui.openMenuGUI();
         topFrame.dispose();
     }
 
@@ -283,7 +274,6 @@ public class Board extends JPanel {
 
                 if (y > Commons.GROUND - Commons.ALIEN_HEIGHT) {
                     inGame = false;
-                    message = "Invasion!";
                 }
 
                 alien.act(direction);
@@ -363,12 +353,6 @@ public class Board extends JPanel {
                     if (!shot.isVisible()) {
                         shot = new Shot(x, y);
                     }
-                }
-            }
-            else if (key == KeyEvent.VK_ESCAPE) {
-                if (!inGame) {
-
-
                 }
             }
         }

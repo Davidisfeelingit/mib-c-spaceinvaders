@@ -4,17 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
 
 public class Menu_GUI extends JPanel implements ActionListener {
 
     private Main_GUI main_gui;
 
-    public Menu_GUI(Main_GUI main_GUI) throws FileNotFoundException {
+    public Menu_GUI(Main_GUI main_GUI) {
         this.main_gui = main_GUI;
 
         setSize(800, 600);
