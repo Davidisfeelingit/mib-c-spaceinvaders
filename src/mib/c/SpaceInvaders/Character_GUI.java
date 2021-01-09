@@ -11,6 +11,11 @@ import java.io.IOException;
 
 public class Character_GUI extends JPanel {
     private Main_GUI main_gui;
+    private JLabel titleLabel;
+    private JPanel characterPanel;
+    private JButton selectButtonL;
+    private JButton selectButtonR;
+    private JLabel selCharLabel;
 
     public Character_GUI(Main_GUI main_gui) {
         this.main_gui = main_gui;
@@ -48,8 +53,7 @@ public class Character_GUI extends JPanel {
         selectButtonL.setAlignmentX(Component.CENTER_ALIGNMENT);
         selectButtonL.addActionListener((ActionListener) e -> {
             main_gui.character.chooseCharacter(main_gui.character.getChosenCharacter()-1);
-            characterPanel.revalidate();
-            characterPanel.repaint();
+            ReloadImage();
         });
         characterPanel.add(selectButtonL);
         characterPanel.add(new Box.Filler(minSize, prefSize, maxSize));
@@ -84,7 +88,7 @@ public class Character_GUI extends JPanel {
         selectButtonR.setAlignmentX(Component.CENTER_ALIGNMENT);
         selectButtonR.addActionListener((ActionListener) e -> {
             main_gui.character.chooseCharacter(main_gui.character.getChosenCharacter()+1);
-            characterPanel.repaint();
+            ReloadImage();
         });
         characterPanel.add(selectButtonR);
         characterPanel.add(new Box.Filler(minSize, prefSize, maxSize));
@@ -94,6 +98,17 @@ public class Character_GUI extends JPanel {
 
 
 
+    }
+
+    private void ReloadImage() {
+        BufferedImage CharacterImage = null;
+        try {
+            CharacterImage = ImageIO.read(new File(main_gui.character.getChaSource()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        BufferedImage resizedChaImg = createResizedCopy(CharacterImage, 100, 100, false);
+        selCharLabel.setIcon(new ImageIcon(resizedChaImg));
     }
 
     BufferedImage createResizedCopy(Image originalImage,
