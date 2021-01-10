@@ -9,7 +9,7 @@ public class SpaceInvaders extends JFrame {
     }
 
     private void initUI(Main_GUI main_GUI) {
-        add(new Board(main_GUI));
+        add(new Game(main_GUI));
 
         setTitle("Space Invaders");
         setSize(Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);

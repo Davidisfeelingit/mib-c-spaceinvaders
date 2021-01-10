@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class Menu_GUI extends JPanel implements ActionListener {
 
@@ -65,6 +67,7 @@ public class Menu_GUI extends JPanel implements ActionListener {
                     main_GUI.dispose();
                 }
         });
+
         exitButton.addActionListener(this);
         buttonPanel.add(exitButton);
 
@@ -84,6 +87,10 @@ public class Menu_GUI extends JPanel implements ActionListener {
 
         add(buttonPanel);
         setVisible(true);
+
+    }
+
+    private void setDefaultCloseOperation(int doNothingOnClose) {
     }
 
     @Override

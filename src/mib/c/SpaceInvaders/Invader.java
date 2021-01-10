@@ -2,11 +2,11 @@ package mib.c.SpaceInvaders;
 
 import javax.swing.ImageIcon;
 
-public class Alien extends Sprite {
+public class Invader extends Sprite {
 
     private Bomb bomb;
 
-    public Alien(int x, int y) {
+    public Invader(int x, int y) {
 
         initAlien(x, y);
     }

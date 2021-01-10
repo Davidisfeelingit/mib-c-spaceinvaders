@@ -15,9 +15,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-public class Board extends JPanel {
+public class Game extends JPanel {
     private Dimension d;
-    private List<Alien> aliens;
+    private List<Invader> invaders;
     private Player player;
     private Shot shot;
 
@@ -32,7 +32,7 @@ public class Board extends JPanel {
 
     private Main_GUI main_gui;
 
-    public Board(Main_GUI main_GUI) {
+    public Game(Main_GUI main_GUI) {
         this.main_gui = main_GUI;
 
         delay = Commons.DELAY;
@@ -53,7 +53,7 @@ public class Board extends JPanel {
     }
 
     private void gameInit() {
-        aliens = new ArrayList<>();
+        invaders = new ArrayList<>();
         createAliens();
 
         player = new Player();
@@ -69,20 +69,20 @@ public class Board extends JPanel {
     }
 
     private void createAliens() {
-        aliens.clear();
+        invaders.clear();
 
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 6; j++) {
-                var alien = new Alien(Commons.ALIEN_INIT_X + 44 * j,
+                var alien = new Invader(Commons.ALIEN_INIT_X + 44 * j,
                         Commons.ALIEN_INIT_Y + 44 * i);
-                aliens.add(alien);
+                invaders.add(alien);
             }
         }
     }
 
     private boolean areAliensAlive() {
-        for (Alien alien: aliens)
-            if (alien.isVisible())
+        for (Invader invader : invaders)
+            if (invader.isVisible())
                 return true;
 
         return false;
@@ -99,16 +99,16 @@ public class Board extends JPanel {
             }
         }
 
-        for (Alien alien : aliens) {
-            if (alien == null)
+        for (Invader invader : invaders) {
+            if (invader == null)
                 continue;
 
-            if (alien.isVisible()) {
-                g.drawImage(alien.getImage(), alien.getX(), alien.getY(), this);
+            if (invader.isVisible()) {
+                g.drawImage(invader.getImage(), invader.getX(), invader.getY(), this);
             }
 
-            if (alien.isDying()) {
-                alien.die();
+            if (invader.isDying()) {
+                invader.die();
             }
         }
     }
@@ -140,8 +140,8 @@ public class Board extends JPanel {
     }
 
     private void drawBombing(Graphics g) {
-        for (Alien a : aliens) {
-            Alien.Bomb b = a.getBomb();
+        for (Invader a : invaders) {
+            Invader.Bomb b = a.getBomb();
 
             if (!b.isDestroyed()) {
                 g.drawImage(b.getImage(), b.getX(), b.getY(), this);
@@ -221,19 +221,19 @@ public class Board extends JPanel {
             int shotX = shot.getX();
             int shotY = shot.getY();
 
-            for (Alien alien : aliens) {
-                int alienX = alien.getX();
-                int alienY = alien.getY();
+            for (Invader invader : invaders) {
+                int alienX = invader.getX();
+                int alienY = invader.getY();
 
-                if (alien.isVisible() && shot.isVisible()) {
+                if (invader.isVisible() && shot.isVisible()) {
                     if (shotX >= (alienX)
                             && shotX <= (alienX + Commons.ALIEN_WIDTH)
                             && shotY >= (alienY)
                             && shotY <= (alienY + Commons.ALIEN_HEIGHT)) {
 
                         var ii = new ImageIcon(explImg);
-                        alien.setImage(ii.getImage());
-                        alien.setDying(true);
+                        invader.setImage(ii.getImage());
+                        invader.setDying(true);
                         deaths++;
                         shot.die();
                     }
@@ -251,16 +251,16 @@ public class Board extends JPanel {
         }
 
         // aliens
-        for (Alien alien : aliens) {
-            int x = alien.getX();
+        for (Invader invader : invaders) {
+            int x = invader.getX();
 
             if (x >= Commons.BOARD_WIDTH - Commons.BORDER_RIGHT && direction != -1) {
                 direction = -1;
 
-                Iterator<Alien> i1 = aliens.iterator();
+                Iterator<Invader> i1 = invaders.iterator();
 
                 while (i1.hasNext()) {
-                    Alien a2 = i1.next();
+                    Invader a2 = i1.next();
                     a2.setY(a2.getY() + Commons.GO_DOWN);
                 }
             }
@@ -268,41 +268,41 @@ public class Board extends JPanel {
             if (x <= Commons.BORDER_LEFT && direction != 1) {
                 direction = 1;
 
-                Iterator<Alien> i2 = aliens.iterator();
+                Iterator<Invader> i2 = invaders.iterator();
 
                 while (i2.hasNext()) {
-                    Alien a = i2.next();
+                    Invader a = i2.next();
                     a.setY(a.getY() + Commons.GO_DOWN);
                 }
             }
         }
 
-        Iterator<Alien> it = aliens.iterator();
+        Iterator<Invader> it = invaders.iterator();
         while (it.hasNext()) {
-            Alien alien = it.next();
+            Invader invader = it.next();
 
-            if (alien.isVisible()) {
-                int y = alien.getY();
+            if (invader.isVisible()) {
+                int y = invader.getY();
 
                 if (y > Commons.GROUND - Commons.ALIEN_HEIGHT) {
                     inGame = false;
                 }
 
-                alien.act(direction);
+                invader.act(direction);
             }
         }
 
         // Bombs
         var generator = new Random();
 
-        for (Alien alien : aliens) {
+        for (Invader invader : invaders) {
             int shot = generator.nextInt(15);
-            Alien.Bomb bomb = alien.getBomb();
+            Invader.Bomb bomb = invader.getBomb();
 
-            if (shot == Commons.CHANCE && alien.isVisible() && bomb.isDestroyed()) {
+            if (shot == Commons.CHANCE && invader.isVisible() && bomb.isDestroyed()) {
                 bomb.setDestroyed(false);
-                bomb.setX(alien.getX());
-                bomb.setY(alien.getY());
+                bomb.setX(invader.getX());
+                bomb.setY(invader.getY());
             }
 
             int bombX = bomb.getX();
