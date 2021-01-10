@@ -57,13 +57,19 @@ public class Menu_GUI extends JPanel implements ActionListener {
         exitButton.setPreferredSize(new Dimension(120, 31));
         exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         exitButton.addActionListener(e -> {
-            System.exit(0);
+                int confirmed = JOptionPane.showConfirmDialog(null,
+                        "Are you sure you want to exit the program?", "Exit Program Message Box",
+                        JOptionPane.YES_NO_OPTION);
+
+                if (confirmed == JOptionPane.YES_OPTION) {
+                    main_GUI.dispose();
+                }
         });
         exitButton.addActionListener(this);
         buttonPanel.add(exitButton);
 
         //Character Button
-        JButton characterButton = new JButton(new ImageIcon(("src/images/exit.png")));
+        JButton characterButton = new JButton(new ImageIcon(("src/images/customize.png")));
         characterButton.setOpaque(false);
         characterButton.setContentAreaFilled(true);
         characterButton.setBorderPainted(true);
