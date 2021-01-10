@@ -1,11 +1,15 @@
 package mib.c.SpaceInvaders;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -53,6 +57,14 @@ public class Board extends JPanel {
         createAliens();
 
         player = new Player();
+        BufferedImage buffPlayerImg = null;
+        try {
+            buffPlayerImg = ImageIO.read(new File(main_gui.character.getChaSource()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Image playerImg = main_gui.character.createResizedCopy(buffPlayerImg, 50, 50, false);
+        player.setImage(playerImg);
         shot = new Shot();
     }
 

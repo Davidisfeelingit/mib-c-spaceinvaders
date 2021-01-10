@@ -44,7 +44,7 @@ public class Character_GUI extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        BufferedImage rzdleftArrow = createResizedCopy(leftArrow, 100, 100, false);
+        BufferedImage rzdleftArrow = main_gui.character.createResizedCopy(leftArrow, 100, 100, false);
         selectButtonL = new JButton(new ImageIcon(rzdleftArrow));
         selectButtonL.setOpaque(false);
         selectButtonL.setContentAreaFilled(false);
@@ -65,7 +65,7 @@ public class Character_GUI extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        BufferedImage resizedChaImg = createResizedCopy(CharacterImage, 100, 100, false);
+        BufferedImage resizedChaImg = main_gui.character.createResizedCopy(CharacterImage, 100, 100, false);
         selCharLabel = new JLabel(new ImageIcon(resizedChaImg));
         selCharLabel.setOpaque(false);
         selCharLabel.setPreferredSize(new Dimension(100, 100));
@@ -79,7 +79,7 @@ public class Character_GUI extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        BufferedImage rzdRightArrow = createResizedCopy(rightArrow, 100, 100, false);
+        BufferedImage rzdRightArrow = main_gui.character.createResizedCopy(rightArrow, 100, 100, false);
         selectButtonR = new JButton(new ImageIcon(rzdRightArrow));
         selectButtonR.setOpaque(false);
         selectButtonR.setContentAreaFilled(false);
@@ -95,6 +95,17 @@ public class Character_GUI extends JPanel {
 
         add(characterPanel);
 
+        //Back - to - menu button
+        JButton leaveCharB = new JButton(new ImageIcon(("src/images/exit.png")));
+        leaveCharB.setOpaque(false);
+        leaveCharB.setContentAreaFilled(true);
+        leaveCharB.setBorderPainted(true);
+        leaveCharB.setBounds(340, 250, 120, 31);
+        leaveCharB.setPreferredSize(new Dimension(120, 31));
+        leaveCharB.addActionListener(e -> {
+            main_gui.openMenuGUI();
+        });
+        this.add(leaveCharB);
 
 
 
@@ -107,22 +118,8 @@ public class Character_GUI extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        BufferedImage resizedChaImg = createResizedCopy(CharacterImage, 100, 100, false);
+        BufferedImage resizedChaImg = main_gui.character.createResizedCopy(CharacterImage, 100, 100, false);
         selCharLabel.setIcon(new ImageIcon(resizedChaImg));
     }
 
-    BufferedImage createResizedCopy(Image originalImage,
-                                    int scaledWidth, int scaledHeight,
-                                    boolean preserveAlpha)
-    {
-        int imageType = preserveAlpha ? BufferedImage.TYPE_INT_RGB : BufferedImage.TYPE_INT_ARGB;
-        BufferedImage scaledBI = new BufferedImage(scaledWidth, scaledHeight, imageType);
-        Graphics2D g = scaledBI.createGraphics();
-        if (preserveAlpha) {
-            g.setComposite(AlphaComposite.Src);
-        }
-        g.drawImage(originalImage, 0, 0, scaledWidth, scaledHeight, null);
-        g.dispose();
-        return scaledBI;
-    }
 }
