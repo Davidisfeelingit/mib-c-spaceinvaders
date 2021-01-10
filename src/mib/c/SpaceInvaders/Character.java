@@ -7,7 +7,7 @@ public class Character {
     public Character(){}
 
     public void chooseCharacter(int character){
-        this.character = character % sources.length;
+        this.character = Math.floorMod(character, sources.length);
     }
     public String getChaSource(){
         return sources[character];

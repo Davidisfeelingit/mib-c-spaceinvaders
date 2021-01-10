@@ -24,13 +24,13 @@ public class Character_GUI extends JPanel {
         setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Title
-        JLabel titleLabel = new JLabel("Choose your Spaceship");
+        titleLabel = new JLabel("Choose your Spaceship");
         titleLabel.setFont(new Font("Chiller", Font.BOLD, 50));
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(titleLabel);
 
         //choose-character Panel
-        JPanel characterPanel = new JPanel(null);
+        characterPanel = new JPanel(null);
         characterPanel.setLayout(new BoxLayout(characterPanel, BoxLayout.LINE_AXIS));
         Dimension minSize = new Dimension(5, 100);
         Dimension prefSize = new Dimension(5, 100);
@@ -45,7 +45,7 @@ public class Character_GUI extends JPanel {
             e.printStackTrace();
         }
         BufferedImage rzdleftArrow = createResizedCopy(leftArrow, 100, 100, false);
-        JButton selectButtonL = new JButton(new ImageIcon(rzdleftArrow));
+        selectButtonL = new JButton(new ImageIcon(rzdleftArrow));
         selectButtonL.setOpaque(false);
         selectButtonL.setContentAreaFilled(false);
         selectButtonL.setBorderPainted(false    );
@@ -66,7 +66,7 @@ public class Character_GUI extends JPanel {
             e.printStackTrace();
         }
         BufferedImage resizedChaImg = createResizedCopy(CharacterImage, 100, 100, false);
-        JLabel selCharLabel = new JLabel(new ImageIcon(resizedChaImg));
+        selCharLabel = new JLabel(new ImageIcon(resizedChaImg));
         selCharLabel.setOpaque(false);
         selCharLabel.setPreferredSize(new Dimension(100, 100));
         characterPanel.add(selCharLabel);
@@ -80,7 +80,7 @@ public class Character_GUI extends JPanel {
             e.printStackTrace();
         }
         BufferedImage rzdRightArrow = createResizedCopy(rightArrow, 100, 100, false);
-        JButton selectButtonR = new JButton(new ImageIcon(rzdRightArrow));
+        selectButtonR = new JButton(new ImageIcon(rzdRightArrow));
         selectButtonR.setOpaque(false);
         selectButtonR.setContentAreaFilled(false);
         selectButtonR.setBorderPainted(false    );
@@ -115,7 +115,6 @@ public class Character_GUI extends JPanel {
                                     int scaledWidth, int scaledHeight,
                                     boolean preserveAlpha)
     {
-        System.out.println("resizing...");
         int imageType = preserveAlpha ? BufferedImage.TYPE_INT_RGB : BufferedImage.TYPE_INT_ARGB;
         BufferedImage scaledBI = new BufferedImage(scaledWidth, scaledHeight, imageType);
         Graphics2D g = scaledBI.createGraphics();
