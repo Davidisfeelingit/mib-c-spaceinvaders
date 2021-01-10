@@ -15,7 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-public class Board extends JPanel {
+public class Game extends JPanel {
     private Dimension d;
     private List<Alien> aliens;
     private Player player;
@@ -32,7 +32,7 @@ public class Board extends JPanel {
 
     private Main_GUI main_gui;
 
-    public Board(Main_GUI main_GUI) {
+    public Game(Main_GUI main_GUI) {
         this.main_gui = main_GUI;
 
         delay = Commons.DELAY;
