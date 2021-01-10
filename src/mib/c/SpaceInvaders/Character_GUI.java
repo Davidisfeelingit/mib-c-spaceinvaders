@@ -13,8 +13,7 @@ public class Character_GUI extends JPanel {
     private Main_GUI main_gui;
     private JLabel titleLabel;
     private JPanel characterPanel;
-    private JButton selectButtonL;
-    private JButton selectButtonR;
+    private JButton selectButtonL, selectButtonR, leaveCharB;
     private JLabel selCharLabel;
 
     public Character_GUI(Main_GUI main_gui) {
@@ -96,19 +95,16 @@ public class Character_GUI extends JPanel {
         add(characterPanel);
 
         //Back - to - menu button
-        JButton leaveCharB = new JButton(new ImageIcon(("src/images/exit.png")));
+        leaveCharB = new JButton(new ImageIcon(("src/images/exit.png")));
         leaveCharB.setOpaque(false);
         leaveCharB.setContentAreaFilled(true);
         leaveCharB.setBorderPainted(true);
-        leaveCharB.setBounds(340, 250, 120, 31);
+        leaveCharB.setBounds(200, 250, 120, 31);
         leaveCharB.setPreferredSize(new Dimension(120, 31));
         leaveCharB.addActionListener(e -> {
             main_gui.openMenuGUI();
         });
         this.add(leaveCharB);
-
-
-
     }
 
     private void ReloadImage() {
