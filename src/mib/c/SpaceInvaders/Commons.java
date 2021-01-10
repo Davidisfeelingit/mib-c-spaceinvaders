@@ -19,6 +19,6 @@ public interface Commons {
     int NUMBER_OF_ALIENS_TO_DESTROY = 36;
     int CHANCE = 5;
     int DELAY = 10;
-    int PLAYER_WIDTH = 32;
-    int PLAYER_HEIGHT = 32;
+    int PLAYER_WIDTH = 50;
+    int PLAYER_HEIGHT = 50;
 }
