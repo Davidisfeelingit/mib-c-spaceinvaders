@@ -370,7 +370,6 @@ public class Game extends JPanel {
             int key = e.getKeyCode();
             if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_RIGHT) {
                 player.keyPressed(e);
-                playSound("src/music/move.wav");
             }
             int x = player.getX();
             int y = player.getY();
