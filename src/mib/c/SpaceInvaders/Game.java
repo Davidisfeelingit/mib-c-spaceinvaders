@@ -12,6 +12,8 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -72,7 +74,7 @@ public class Game extends JPanel {
         Image playerImg = main_gui.character.createResizedCopy(buffPlayerImg, 50, 50, false);
         player.setImage(playerImg);
         shot = new Shot();
-        //playClip();
+        playSound("src/music/retro.wav");
     }
 
     private void createAliens() {
@@ -377,13 +379,15 @@ public class Game extends JPanel {
         }
     }
     public void playSound(String filepath) {
+        Path path = Path.of(filepath);
+        File clipFile = new File (filepath);
         try {
+            AudioInputStream inputStream = AudioSystem.getAudioInputStream(clipFile);
             Clip clip = AudioSystem.getClip();
-            AudioInputStream inputStream = AudioSystem.getAudioInputStream(
-                    Main.class.getResource("/src/music/" + filepath));
-                    clip.open(inputStream);
-                    clip.start();
-        } catch (Exception e) {
+            clip.open(inputStream);
+            clip.start();
+        }
+        catch (Exception e) {
             System.err.println(e.getMessage());
         }
     }
