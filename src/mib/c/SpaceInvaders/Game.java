@@ -74,6 +74,7 @@ public class Game extends JPanel {
         player.setImage(playerImg);
         shot = new Shot();
         playSound("src/music/retro.wav");
+        playSound("src/music/startup.wav");
     }
 
     private void createAliens() {
@@ -192,6 +193,7 @@ public class Game extends JPanel {
 
     private void gameOver() {
         showGameOverAlert();
+        playSound("src/music/gameover.wav");
     }
 
     private void goBackToMenu() {
@@ -242,6 +244,7 @@ public class Game extends JPanel {
                         var ii = new ImageIcon(explImg);
                         alien.setImage(ii.getImage());
                         alien.setDying(true);
+                        playSound("src/music/explosion.wav");
                         deaths++;
                         shot.die();
                     }
@@ -311,6 +314,7 @@ public class Game extends JPanel {
                 bomb.setDestroyed(false);
                 bomb.setX(alien.getX());
                 bomb.setY(alien.getY());
+                playSound("src/music/alienlaser.wav");
             }
 
             int bombX = bomb.getX();
@@ -327,6 +331,7 @@ public class Game extends JPanel {
                     var ii = new ImageIcon(explImg);
                     player.setImage(ii.getImage());
                     player.setDying(true);
+                    playSound("src/music/explosion.wav");
                     bomb.setDestroyed(true);
                 }
             }
@@ -362,16 +367,20 @@ public class Game extends JPanel {
 
         @Override
         public void keyPressed(KeyEvent e) {
-            player.keyPressed(e);
-
+            int key = e.getKeyCode();
+            if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_RIGHT) {
+                player.keyPressed(e);
+                playSound("src/music/move.wav");
+            }
             int x = player.getX();
             int y = player.getY();
 
-            int key = e.getKeyCode();
+
             if (key == KeyEvent.VK_SPACE) {
                 if (inGame) {
                     if (!shot.isVisible()) {
                         shot = new Shot(x, y);
+                        playSound("src/music/playerlaser.wav");
                     }
                 }
             }
