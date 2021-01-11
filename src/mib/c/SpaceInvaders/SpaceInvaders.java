@@ -4,6 +4,9 @@ import javax.swing.*;
 
 public class SpaceInvaders extends JFrame {
 
+    /**
+     * Initializes and starts a game in a new JFrame.
+     */
     public SpaceInvaders(Main_GUI main_GUI) {
         initUI(main_GUI);
     }

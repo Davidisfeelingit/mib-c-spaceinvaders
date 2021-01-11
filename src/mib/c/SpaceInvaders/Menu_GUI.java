@@ -11,6 +11,9 @@ public class Menu_GUI extends JPanel implements ActionListener {
 
     private Main_GUI main_gui;
 
+    /**
+     * Initializes the main menu.
+     */
     public Menu_GUI(Main_GUI main_GUI) {
         this.main_gui = main_GUI;
 

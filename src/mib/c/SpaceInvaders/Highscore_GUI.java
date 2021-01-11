@@ -8,6 +8,9 @@ public class Highscore_GUI extends JPanel {
 
     private Main_GUI main_gui;
 
+    /**
+     * A JPanel with a JTable that displays the highscore list.
+     */
     public Highscore_GUI(Main_GUI main_GUI) {
         this.main_gui = main_GUI;
 

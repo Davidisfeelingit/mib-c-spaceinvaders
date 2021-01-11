@@ -28,6 +28,9 @@ public class Game extends JPanel {
 
     private Main_GUI main_gui;
 
+    /**
+     * Constructoer for the Game class.
+     */
     public Game(Main_GUI main_GUI) {
         this.main_gui = main_GUI;
 
@@ -36,6 +39,9 @@ public class Game extends JPanel {
         gameInit();
     }
 
+    /**
+     * Init board, keylistener, speed
+     */
     private void initBoard() {
         addKeyListener(new TAdapter());
         setFocusable(true);
@@ -48,6 +54,9 @@ public class Game extends JPanel {
         gameInit();
     }
 
+    /**
+     * Init game objects.
+     */
     private void gameInit() {
         invaders = new ArrayList<>();
         createAliens();
@@ -56,6 +65,9 @@ public class Game extends JPanel {
         shot = new Shot();
     }
 
+    /**
+     * Initializes a new wave of aliens.
+     */
     private void createAliens() {
         invaders.clear();
 
@@ -68,6 +80,9 @@ public class Game extends JPanel {
         }
     }
 
+    /**
+     * Returns true if at least one alien is alive.
+     */
     private boolean areAliensAlive() {
         for (Invader invader : invaders)
             if (invader.isVisible())
@@ -76,6 +91,9 @@ public class Game extends JPanel {
         return false;
     }
 
+    /**
+     * Draws aliens to their positions if alive.
+     */
     private void drawAliens(Graphics g) {
         if (!areAliensAlive()) {
             createAliens();
@@ -101,6 +119,9 @@ public class Game extends JPanel {
         }
     }
 
+    /**
+     * Draws player to its position if alive.
+     */
     private void drawPlayer(Graphics g) {
         if (player.isVisible()) {
             g.drawImage(player.getImage(), player.getX(), player.getY(), this);
@@ -112,6 +133,9 @@ public class Game extends JPanel {
         }
     }
 
+    /**
+     * Draws the highscore to the top left corner of the GUI.
+     */
     private void drawHighScore(Graphics g) {
         var small = new Font("Helvetica", Font.BOLD, 10);
         String highscore = String.format("Highscore: %d", deaths);
@@ -121,12 +145,18 @@ public class Game extends JPanel {
         g.drawString(highscore, 0, 10);
     }
 
+    /**
+     * Draws bomb to its position, if visible
+     */
     private void drawShot(Graphics g) {
         if (shot.isVisible()) {
             g.drawImage(shot.getImage(), shot.getX(), shot.getY(), this);
         }
     }
 
+    /**
+     * Draws bomb to its position, if not destroyed
+     */
     private void drawBombing(Graphics g) {
         for (Invader a : invaders) {
             Invader.Bomb b = a.getBomb();
@@ -140,10 +170,12 @@ public class Game extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         doDrawing(g);
     }
 
+    /**
+     * Calls all drawing functions of the different game object if necessary.
+     */
     private void doDrawing(Graphics g) {
         g.setColor(Color.black);
         g.fillRect(0, 0, d.width, d.height);
@@ -174,12 +206,18 @@ public class Game extends JPanel {
         showGameOverAlert();
     }
 
+    /**
+     * Go back to main menu.
+     */
     private void goBackToMenu() {
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         this.main_gui.openMenuGUI();
         topFrame.dispose();
     }
 
+    /**
+     * Display highscore and ask the users if he wants to save it.
+     */
     private void showGameOverAlert() {
         String result = (String)JOptionPane.showInputDialog(
                 this,
@@ -194,12 +232,15 @@ public class Game extends JPanel {
         if(result != null && result.length() > 0){
             String highscore = String.format("%s:%d", result, deaths);
             Highscore.saveHighscore(highscore);
-
         }
 
         goBackToMenu();
     }
 
+    /**
+     * Handles all the collisions, explosions, deaths etc..
+     * Gets calles once every frame.
+     */
     private void update() {
         // player
         player.act();
@@ -326,6 +367,9 @@ public class Game extends JPanel {
         repaint();
     }
 
+    /**
+     * Gets called from the timer object for each "frame"
+     */
     private class GameCycle implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -333,6 +377,9 @@ public class Game extends JPanel {
         }
     }
 
+    /**
+     * Handles the keyboard input
+     */
     private class TAdapter extends KeyAdapter {
 
         @Override
