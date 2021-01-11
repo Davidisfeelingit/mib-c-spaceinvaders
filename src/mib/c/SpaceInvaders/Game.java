@@ -51,6 +51,7 @@ public class Game extends JPanel {
         delay = Commons.DELAY;
         initBoard();
         gameInit();
+
     }
 
     private void initBoard() {
@@ -63,6 +64,7 @@ public class Game extends JPanel {
         timer.start();
 
         gameInit();
+
     }
 
     private void gameInit() {
@@ -79,7 +81,6 @@ public class Game extends JPanel {
         Image playerImg = main_gui.character.createResizedCopy(buffPlayerImg, 50, 50, false);
         player.setImage(playerImg);
         shot = new Shot();
-        play("src/music/retro.wav");
     }
 
     private void createAliens() {
@@ -384,7 +385,7 @@ public class Game extends JPanel {
         }
     }
 
-    public void play(String filePath) {
+    public static void play(String filePath) {
         final File file = new File(filePath);
 
         try (final AudioInputStream in = getAudioInputStream(file)) {
@@ -411,14 +412,14 @@ public class Game extends JPanel {
         }
     }
 
-    private AudioFormat getOutFormat(AudioFormat inFormat) {
+    private static AudioFormat getOutFormat(AudioFormat inFormat) {
         final int ch = inFormat.getChannels();
 
         final float rate = inFormat.getSampleRate();
         return new AudioFormat(PCM_SIGNED, rate, 16, ch, ch * 2, rate, false);
     }
 
-    private void stream(AudioInputStream in, SourceDataLine line)
+    private static void stream(AudioInputStream in, SourceDataLine line)
             throws IOException {
         final byte[] buffer = new byte[4096];
         for (int n = 0; n != -1; n = in.read(buffer, 0, buffer.length)) {

@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 
 public class Main_GUI extends JFrame {
     public Character character = new Character();
+    private Game game;
     public Main_GUI() {
         setSize(800, 600);
         Container mainPanel = getContentPane();
@@ -14,6 +15,7 @@ public class Main_GUI extends JFrame {
         mainPanel.setVisible(true);
 
         openMenuGUI();
+        game.play("src/music/retro.wav");
 
         setVisible(true);
         setResizable(false);
@@ -22,7 +24,6 @@ public class Main_GUI extends JFrame {
 
     public static void main(String args[]) {
         new Main_GUI();
-
     }
 
     public void openMenuGUI() {
