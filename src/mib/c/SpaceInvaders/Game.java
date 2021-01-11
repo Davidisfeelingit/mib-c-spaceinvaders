@@ -43,7 +43,6 @@ public class Game extends JPanel {
 
         delay = Commons.DELAY;
         initBoard();
-        gameInit();
 
     }
 

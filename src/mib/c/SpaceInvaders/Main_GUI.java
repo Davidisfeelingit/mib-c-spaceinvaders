@@ -9,7 +9,6 @@ import java.net.URL;
 
 public class Main_GUI extends JFrame {
     public Character character = new Character();
-    private Game game;
     public Main_GUI() {
         setSize(800, 600);
         Container mainPanel = getContentPane();
@@ -17,7 +16,6 @@ public class Main_GUI extends JFrame {
         setLocationRelativeTo(null);
         mainPanel.setLayout(null);
         mainPanel.setVisible(true);
-
         openMenuGUI();
 
         setVisible(true);
