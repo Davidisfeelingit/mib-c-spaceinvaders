@@ -1,8 +1,11 @@
 package mib.c.SpaceInvaders;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
 
 public class Main_GUI extends JFrame {
     public Character character = new Character();
@@ -10,12 +13,12 @@ public class Main_GUI extends JFrame {
     public Main_GUI() {
         setSize(800, 600);
         Container mainPanel = getContentPane();
+        setTitle("Space Invaders");
         setLocationRelativeTo(null);
         mainPanel.setLayout(null);
         mainPanel.setVisible(true);
 
         openMenuGUI();
-        game.play("src/music/retro.wav");
 
         setVisible(true);
         setResizable(false);
@@ -24,6 +27,7 @@ public class Main_GUI extends JFrame {
 
     public static void main(String args[]) {
         new Main_GUI();
+
     }
 
     public void openMenuGUI() {

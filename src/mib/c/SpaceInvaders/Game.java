@@ -1,6 +1,8 @@
 package mib.c.SpaceInvaders;
 
+import mib.c.Main;
 import javax.imageio.ImageIO;
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,25 +10,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.io.File;
 import java.io.IOException;
-
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.DataLine.Info;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.SourceDataLine;
-import javax.sound.sampled.UnsupportedAudioFileException;
-
-import static javax.sound.sampled.AudioSystem.getAudioInputStream;
-import static javax.sound.sampled.AudioFormat.Encoding.PCM_SIGNED;
 
 public class Game extends JPanel {
     private Dimension d;
@@ -81,6 +72,7 @@ public class Game extends JPanel {
         Image playerImg = main_gui.character.createResizedCopy(buffPlayerImg, 50, 50, false);
         player.setImage(playerImg);
         shot = new Shot();
+        //playClip();
     }
 
     private void createAliens() {
@@ -384,48 +376,51 @@ public class Game extends JPanel {
             }
         }
     }
-
-    public static void play(String filePath) {
-        final File file = new File(filePath);
-
-        try (final AudioInputStream in = getAudioInputStream(file)) {
-
-            final AudioFormat outFormat = getOutFormat(in.getFormat());
-            final Info info = new Info(SourceDataLine.class, outFormat);
-
-            try (final SourceDataLine line =
-                         (SourceDataLine) AudioSystem.getLine(info)) {
-
-                if (line != null) {
-                    line.open(outFormat);
-                    line.start();
-                    stream(getAudioInputStream(outFormat, in), line);
-                    line.drain();
-                    line.stop();
+    public void playSound(String filepath) {
+        try {
+            Clip clip = AudioSystem.getClip();
+            AudioInputStream inputStream = AudioSystem.getAudioInputStream(
+                    Main.class.getResource("/src/music/" + filepath));
+                    clip.open(inputStream);
+                    clip.start();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+    public static void playClip(File clipFile) throws IOException,
+            UnsupportedAudioFileException, LineUnavailableException, InterruptedException {
+        class AudioListener implements LineListener {
+            private boolean done = false;
+            @Override public synchronized void update(LineEvent event) {
+                LineEvent.Type eventType = event.getType();
+                if (eventType == LineEvent.Type.STOP || eventType == LineEvent.Type.CLOSE) {
+                    done = true;
+                    notifyAll();
                 }
             }
-
-        } catch (UnsupportedAudioFileException
-                | LineUnavailableException
-                | IOException e) {
-            throw new IllegalStateException(e);
+            public synchronized void waitUntilDone() throws InterruptedException {
+                while (!done) { wait(); }
+            }
+        }
+        AudioListener listener = new AudioListener();
+        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(clipFile);
+        try {
+            Clip clip = AudioSystem.getClip();
+            clip.addLineListener(listener);
+            clip.open(audioInputStream);
+            try {
+                clip.start();
+                listener.waitUntilDone();
+            } finally {
+                clip.close();
+            }
+        } finally {
+            audioInputStream.close();
         }
     }
 
-    private static AudioFormat getOutFormat(AudioFormat inFormat) {
-        final int ch = inFormat.getChannels();
-
-        final float rate = inFormat.getSampleRate();
-        return new AudioFormat(PCM_SIGNED, rate, 16, ch, ch * 2, rate, false);
-    }
-
-    private static void stream(AudioInputStream in, SourceDataLine line)
-            throws IOException {
-        final byte[] buffer = new byte[4096];
-        for (int n = 0; n != -1; n = in.read(buffer, 0, buffer.length)) {
-            line.write(buffer, 0, n);
-        }
-    }
 }
+
+
 
 
