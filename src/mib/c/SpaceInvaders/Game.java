@@ -73,7 +73,7 @@ public class Game extends JPanel {
         Image playerImg = main_gui.character.createResizedCopy(buffPlayerImg, 50, 50, false);
         player.setImage(playerImg);
         shot = new Shot();
-        playSound("src/music/retro.wav");
+        playSound("src/music/space invader.wav");
         playSound("src/music/startup.wav");
     }
 
