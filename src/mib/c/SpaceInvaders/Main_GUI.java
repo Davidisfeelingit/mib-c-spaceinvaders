@@ -1,9 +1,16 @@
 package mib.c.SpaceInvaders;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
 
 public class Main_GUI extends JFrame {
+
+
+    public Character character = new Character();
 
     /**
      * JFrame thats holds all the other GUI´s
@@ -11,10 +18,10 @@ public class Main_GUI extends JFrame {
     public Main_GUI() {
         setSize(800, 600);
         Container mainPanel = getContentPane();
+        setTitle("Space Invaders");
         setLocationRelativeTo(null);
         mainPanel.setLayout(null);
         mainPanel.setVisible(true);
-
         openMenuGUI();
 
         setVisible(true);
@@ -24,6 +31,7 @@ public class Main_GUI extends JFrame {
 
     public static void main(String args[]) {
         new Main_GUI();
+
     }
 
     /**
@@ -54,4 +62,12 @@ public class Main_GUI extends JFrame {
             ex.setVisible(true);
         });
     }
+
+    public void openCharacterGUI() {
+        this.getContentPane().removeAll();
+        this.repaint();
+        this.getContentPane().add(new Character_GUI(this));
+        this.setVisible(true);
+    }
+
 }

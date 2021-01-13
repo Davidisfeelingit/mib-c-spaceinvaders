@@ -1,15 +1,25 @@
 package mib.c.SpaceInvaders;
 
+import mib.c.Main;
+import javax.imageio.ImageIO;
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.io.File;
+import java.io.IOException;
 
 public class Game extends JPanel {
     private Dimension d;
@@ -28,6 +38,7 @@ public class Game extends JPanel {
 
     private Main_GUI main_gui;
 
+
     /**
      * Constructoer for the Game class.
      */
@@ -36,7 +47,7 @@ public class Game extends JPanel {
 
         delay = Commons.DELAY;
         initBoard();
-        gameInit();
+
     }
 
     /**
@@ -52,6 +63,7 @@ public class Game extends JPanel {
         timer.start();
 
         gameInit();
+
     }
 
     /**
@@ -62,7 +74,17 @@ public class Game extends JPanel {
         createAliens();
 
         player = new Player();
+        BufferedImage buffPlayerImg = null;
+        try {
+            buffPlayerImg = ImageIO.read(new File(main_gui.character.getChaSource()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Image playerImg = main_gui.character.createResizedCopy(buffPlayerImg, 50, 50, false);
+        player.setImage(playerImg);
         shot = new Shot();
+        playSound("src/music/space invader.wav");
+        playSound("src/music/startup.wav");
     }
 
     /**
@@ -204,6 +226,7 @@ public class Game extends JPanel {
 
     private void gameOver() {
         showGameOverAlert();
+        playSound("src/music/gameover.wav");
     }
 
     /**
@@ -263,6 +286,8 @@ public class Game extends JPanel {
                         var ii = new ImageIcon(explImg);
                         invader.setImage(ii.getImage());
                         invader.setDying(true);
+                        playSound("src/music/explosion.wav");
+
                         deaths++;
                         shot.die();
                     }
@@ -332,6 +357,8 @@ public class Game extends JPanel {
                 bomb.setDestroyed(false);
                 bomb.setX(invader.getX());
                 bomb.setY(invader.getY());
+
+                playSound("src/music/alienlaser.wav");
             }
 
             int bombX = bomb.getX();
@@ -348,6 +375,7 @@ public class Game extends JPanel {
                     var ii = new ImageIcon(explImg);
                     player.setImage(ii.getImage());
                     player.setDying(true);
+                    playSound("src/music/explosion.wav");
                     bomb.setDestroyed(true);
                 }
             }
@@ -389,19 +417,72 @@ public class Game extends JPanel {
 
         @Override
         public void keyPressed(KeyEvent e) {
-            player.keyPressed(e);
-
+            int key = e.getKeyCode();
+            if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_RIGHT) {
+                player.keyPressed(e);
+            }
             int x = player.getX();
             int y = player.getY();
 
-            int key = e.getKeyCode();
+
             if (key == KeyEvent.VK_SPACE) {
                 if (inGame) {
                     if (!shot.isVisible()) {
                         shot = new Shot(x, y);
+                        playSound("src/music/playerlaser.wav");
                     }
                 }
             }
         }
     }
+
+    public void playSound(String filepath) {
+        Path path = Path.of(filepath);
+        File clipFile = new File (filepath);
+        try {
+            AudioInputStream inputStream = AudioSystem.getAudioInputStream(clipFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(inputStream);
+            clip.start();
+        }
+        catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+    public static void playClip(File clipFile) throws IOException,
+            UnsupportedAudioFileException, LineUnavailableException, InterruptedException {
+        class AudioListener implements LineListener {
+            private boolean done = false;
+            @Override public synchronized void update(LineEvent event) {
+                LineEvent.Type eventType = event.getType();
+                if (eventType == LineEvent.Type.STOP || eventType == LineEvent.Type.CLOSE) {
+                    done = true;
+                    notifyAll();
+                }
+            }
+            public synchronized void waitUntilDone() throws InterruptedException {
+                while (!done) { wait(); }
+            }
+        }
+        AudioListener listener = new AudioListener();
+        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(clipFile);
+        try {
+            Clip clip = AudioSystem.getClip();
+            clip.addLineListener(listener);
+            clip.open(audioInputStream);
+            try {
+                clip.start();
+                listener.waitUntilDone();
+            } finally {
+                clip.close();
+            }
+        } finally {
+            audioInputStream.close();
+        }
+    }
+
 }
+
+
+
+
