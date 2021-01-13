@@ -4,8 +4,10 @@ import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Path;
 
 public class Main_GUI extends JFrame {
 
@@ -22,6 +24,7 @@ public class Main_GUI extends JFrame {
         setLocationRelativeTo(null);
         mainPanel.setLayout(null);
         mainPanel.setVisible(true);
+        playSound("src/music/space invader.wav");
         openMenuGUI();
 
         setVisible(true);
@@ -68,6 +71,19 @@ public class Main_GUI extends JFrame {
         this.repaint();
         this.getContentPane().add(new Character_GUI(this));
         this.setVisible(true);
+    }
+    public void playSound(String filepath) {
+        Path path = Path.of(filepath);
+        File clipFile = new File (filepath);
+        try {
+            AudioInputStream inputStream = AudioSystem.getAudioInputStream(clipFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(inputStream);
+            clip.start();
+        }
+        catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
     }
 
 }
