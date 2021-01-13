@@ -12,9 +12,8 @@ import java.io.IOException;
 public class Character_GUI extends JPanel {
     private Main_GUI main_gui;
     private JLabel titleLabel;
-    private JPanel characterPanel;
-    private JButton selectButtonL;
-    private JButton selectButtonR;
+    private JPanel characterPanel, exitBPanel;
+    private JButton selectButtonL, selectButtonR, leaveCharB;
     private JLabel selCharLabel;
 
     public Character_GUI(Main_GUI main_gui) {
@@ -96,19 +95,20 @@ public class Character_GUI extends JPanel {
         add(characterPanel);
 
         //Back - to - menu button
-        JButton leaveCharB = new JButton(new ImageIcon(("src/images/exit.png")));
+        exitBPanel = new JPanel(null);
+        leaveCharB = new JButton(new ImageIcon(("src/images/exit.png")));
         leaveCharB.setOpaque(false);
         leaveCharB.setContentAreaFilled(true);
         leaveCharB.setBorderPainted(true);
-        leaveCharB.setBounds(340, 250, 120, 31);
+        leaveCharB.setBounds(345, 130, 120, 31);
         leaveCharB.setPreferredSize(new Dimension(120, 31));
+        leaveCharB.setAlignmentX(Component.CENTER_ALIGNMENT);
         leaveCharB.addActionListener(e -> {
             main_gui.openMenuGUI();
         });
-        this.add(leaveCharB);
-
-
-
+        add(exitBPanel);
+        exitBPanel.add(leaveCharB);
+        exitBPanel.setVisible(true);
     }
 
     private void ReloadImage() {
@@ -121,5 +121,4 @@ public class Character_GUI extends JPanel {
         BufferedImage resizedChaImg = main_gui.character.createResizedCopy(CharacterImage, 100, 100, false);
         selCharLabel.setIcon(new ImageIcon(resizedChaImg));
     }
-
 }

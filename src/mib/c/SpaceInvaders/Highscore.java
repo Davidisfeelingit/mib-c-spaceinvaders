@@ -9,7 +9,9 @@ import java.nio.file.Path;
 import java.util.*;
 
 public class Highscore {
-
+    /**
+     * Return the highscore as 2D Array
+     */
     public static String[][] readHighscore() {
         try {
             // Read json file.
@@ -37,6 +39,10 @@ public class Highscore {
         return null;
     }
 
+    /**
+     * Save a new highscore entry
+     * @param newHighScore, must be in this format: [name:score]
+     */
     public static void saveHighscore(String newHighScore) {
         try {
             // Read json file.

@@ -1,6 +1,8 @@
 package mib.c.SpaceInvaders;
 
+import mib.c.Main;
 import javax.imageio.ImageIO;
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,12 +10,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.io.File;
+import java.io.IOException;
 
 public class Game extends JPanel {
     private Dimension d;
@@ -32,14 +38,21 @@ public class Game extends JPanel {
 
     private Main_GUI main_gui;
 
+
+    /**
+     * Constructoer for the Game class.
+     */
     public Game(Main_GUI main_GUI) {
         this.main_gui = main_GUI;
 
         delay = Commons.DELAY;
         initBoard();
-        gameInit();
+
     }
 
+    /**
+     * Init board, keylistener, speed
+     */
     private void initBoard() {
         addKeyListener(new TAdapter());
         setFocusable(true);
@@ -50,8 +63,12 @@ public class Game extends JPanel {
         timer.start();
 
         gameInit();
+
     }
 
+    /**
+     * Init game objects.
+     */
     private void gameInit() {
         invaders = new ArrayList<>();
         createAliens();
@@ -66,8 +83,13 @@ public class Game extends JPanel {
         Image playerImg = main_gui.character.createResizedCopy(buffPlayerImg, 50, 50, false);
         player.setImage(playerImg);
         shot = new Shot();
+        //playSound("src/music/space invader.wav");
+        playSound("src/music/startup.wav");
     }
 
+    /**
+     * Initializes a new wave of aliens.
+     */
     private void createAliens() {
         invaders.clear();
 
@@ -80,6 +102,9 @@ public class Game extends JPanel {
         }
     }
 
+    /**
+     * Returns true if at least one alien is alive.
+     */
     private boolean areAliensAlive() {
         for (Invader invader : invaders)
             if (invader.isVisible())
@@ -88,6 +113,9 @@ public class Game extends JPanel {
         return false;
     }
 
+    /**
+     * Draws aliens to their positions if alive.
+     */
     private void drawAliens(Graphics g) {
         if (!areAliensAlive()) {
             createAliens();
@@ -113,6 +141,9 @@ public class Game extends JPanel {
         }
     }
 
+    /**
+     * Draws player to its position if alive.
+     */
     private void drawPlayer(Graphics g) {
         if (player.isVisible()) {
             g.drawImage(player.getImage(), player.getX(), player.getY(), this);
@@ -124,6 +155,9 @@ public class Game extends JPanel {
         }
     }
 
+    /**
+     * Draws the highscore to the top left corner of the GUI.
+     */
     private void drawHighScore(Graphics g) {
         var small = new Font("Helvetica", Font.BOLD, 10);
         String highscore = String.format("Highscore: %d", deaths);
@@ -133,12 +167,18 @@ public class Game extends JPanel {
         g.drawString(highscore, 0, 10);
     }
 
+    /**
+     * Draws bomb to its position, if visible
+     */
     private void drawShot(Graphics g) {
         if (shot.isVisible()) {
             g.drawImage(shot.getImage(), shot.getX(), shot.getY(), this);
         }
     }
 
+    /**
+     * Draws bomb to its position, if not destroyed
+     */
     private void drawBombing(Graphics g) {
         for (Invader a : invaders) {
             Invader.Bomb b = a.getBomb();
@@ -152,10 +192,12 @@ public class Game extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         doDrawing(g);
     }
 
+    /**
+     * Calls all drawing functions of the different game object if necessary.
+     */
     private void doDrawing(Graphics g) {
         g.setColor(Color.black);
         g.fillRect(0, 0, d.width, d.height);
@@ -184,14 +226,21 @@ public class Game extends JPanel {
 
     private void gameOver() {
         showGameOverAlert();
+        playSound("src/music/gameover.wav");
     }
 
+    /**
+     * Go back to main menu.
+     */
     private void goBackToMenu() {
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         this.main_gui.openMenuGUI();
         topFrame.dispose();
     }
 
+    /**
+     * Display highscore and ask the users if he wants to save it.
+     */
     private void showGameOverAlert() {
         String result = (String)JOptionPane.showInputDialog(
                 this,
@@ -206,12 +255,15 @@ public class Game extends JPanel {
         if(result != null && result.length() > 0){
             String highscore = String.format("%s:%d", result, deaths);
             Highscore.saveHighscore(highscore);
-
         }
 
         goBackToMenu();
     }
 
+    /**
+     * Handles all the collisions, explosions, deaths etc..
+     * Gets calles once every frame.
+     */
     private void update() {
         // player
         player.act();
@@ -234,6 +286,8 @@ public class Game extends JPanel {
                         var ii = new ImageIcon(explImg);
                         invader.setImage(ii.getImage());
                         invader.setDying(true);
+                        playSound("src/music/explosion.wav");
+
                         deaths++;
                         shot.die();
                     }
@@ -303,6 +357,8 @@ public class Game extends JPanel {
                 bomb.setDestroyed(false);
                 bomb.setX(invader.getX());
                 bomb.setY(invader.getY());
+
+                playSound("src/music/alienlaser.wav");
             }
 
             int bombX = bomb.getX();
@@ -319,6 +375,7 @@ public class Game extends JPanel {
                     var ii = new ImageIcon(explImg);
                     player.setImage(ii.getImage());
                     player.setDying(true);
+                    playSound("src/music/explosion.wav");
                     bomb.setDestroyed(true);
                 }
             }
@@ -338,6 +395,9 @@ public class Game extends JPanel {
         repaint();
     }
 
+    /**
+     * Gets called from the timer object for each "frame"
+     */
     private class GameCycle implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -345,6 +405,9 @@ public class Game extends JPanel {
         }
     }
 
+    /**
+     * Handles the keyboard input
+     */
     private class TAdapter extends KeyAdapter {
 
         @Override
@@ -354,19 +417,72 @@ public class Game extends JPanel {
 
         @Override
         public void keyPressed(KeyEvent e) {
-            player.keyPressed(e);
-
+            int key = e.getKeyCode();
+            if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_RIGHT) {
+                player.keyPressed(e);
+            }
             int x = player.getX();
             int y = player.getY();
 
-            int key = e.getKeyCode();
+
             if (key == KeyEvent.VK_SPACE) {
                 if (inGame) {
                     if (!shot.isVisible()) {
                         shot = new Shot(x, y);
+                        playSound("src/music/playerlaser.wav");
                     }
                 }
             }
         }
     }
+
+    public void playSound(String filepath) {
+        Path path = Path.of(filepath);
+        File clipFile = new File (filepath);
+        try {
+            AudioInputStream inputStream = AudioSystem.getAudioInputStream(clipFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(inputStream);
+            clip.start();
+        }
+        catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+    public static void playClip(File clipFile) throws IOException,
+            UnsupportedAudioFileException, LineUnavailableException, InterruptedException {
+        class AudioListener implements LineListener {
+            private boolean done = false;
+            @Override public synchronized void update(LineEvent event) {
+                LineEvent.Type eventType = event.getType();
+                if (eventType == LineEvent.Type.STOP || eventType == LineEvent.Type.CLOSE) {
+                    done = true;
+                    notifyAll();
+                }
+            }
+            public synchronized void waitUntilDone() throws InterruptedException {
+                while (!done) { wait(); }
+            }
+        }
+        AudioListener listener = new AudioListener();
+        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(clipFile);
+        try {
+            Clip clip = AudioSystem.getClip();
+            clip.addLineListener(listener);
+            clip.open(audioInputStream);
+            try {
+                clip.start();
+                listener.waitUntilDone();
+            } finally {
+                clip.close();
+            }
+        } finally {
+            audioInputStream.close();
+        }
+    }
+
 }
+
+
+
+
